@@ -1,4 +1,4 @@
-package com.software.spring.blog;
+package com.software.spring;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
