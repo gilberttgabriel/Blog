@@ -6,15 +6,15 @@ public class Mensaje {
     private String contenido;
     private String autor;
     private LocalDateTime fechaCreacion;
+    private Integer id;
 
-    // Constructor vacío (necesario para Jackson)
-    public Mensaje() {}
 
     // Constructor completo
-    public Mensaje(String contenido, String autor, LocalDateTime fechaCreacion) {
+    public Mensaje(String contenido, String autor, LocalDateTime fechaCreacion, Integer id) {
         this.contenido = contenido;
         this.autor = autor;
         this.fechaCreacion = fechaCreacion;
+        this.id = id;
     }
 
     // Getters y setters
@@ -27,12 +27,15 @@ public class Mensaje {
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
+    public Integer id() { return id; }
+    public void id(Integer id) {this.id = id; }
     @Override
     public String toString() {
         return "Mensaje{" +
                 "contenido='" + contenido + '\'' +
                 ", autor='" + autor + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
+                ", id=" +
                 '}';
     }
 }

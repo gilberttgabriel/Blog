@@ -7,11 +7,8 @@ public class Usuario {
     private String description;
     private String nombre;
 
-    // Constructor vacío (necesario para Jackson)
-    public Usuario() {}
-
     // Constructor completo
-    public Usuario(String id, String nombre, String username, String description) {
+    public Usuario(String id, String username, String description, String nombre) {
         this.id = id;
         this.nombre = nombre;
         this.username = username;
