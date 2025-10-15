@@ -1,20 +1,20 @@
 
-package com.software.spring.model;
+package com.software.spring.model.entity;
 
 import java.time.LocalDateTime;
 
 public class Publicacion {
-    private String id;
+    private Integer id;
     private String titulo;
     private String contenido;
-    private Usuario autor;
+    private Perfil autor;
     private LocalDateTime fechaCreacion;
 
     // Constructor vacío
     public Publicacion() {}
 
     // Constructor completo
-    public Publicacion(String id, String titulo, String contenido, Usuario autor, LocalDateTime fechaCreacion) {
+    public Publicacion(Integer id, String titulo, String contenido, Perfil autor, LocalDateTime fechaCreacion) {
         this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
@@ -23,8 +23,8 @@ public class Publicacion {
     }
 
     // Getters y setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -32,8 +32,8 @@ public class Publicacion {
     public String getContenido() { return contenido; }
     public void setContenido(String contenido) { this.contenido = contenido; }
 
-    public Usuario getAutor() { return autor; }
-    public void setAutor(Usuario autor) { this.autor = autor; }
+    public Perfil getAutor() { return autor; }
+    public void setAutor(Perfil autor) { this.autor = autor; }
 
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }

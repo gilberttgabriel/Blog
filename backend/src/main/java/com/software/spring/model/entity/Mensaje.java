@@ -1,4 +1,4 @@
-package com.software.spring.model;
+package com.software.spring.model.entity;
 
 import java.time.LocalDateTime;
 
