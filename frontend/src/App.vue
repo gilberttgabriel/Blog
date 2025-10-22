@@ -19,6 +19,13 @@
 </script>
 
 <style>
+
+    :root {
+  /* ancho del sidebar: mínimo 200px, ideal 20vw, máximo 320px */
+  --sidebar-width: clamp(150px, 20vw, 320px);
+}
+
+    /* Reset CSS básico */
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -47,7 +54,7 @@
 
     aside {
       display: flex;
-      width: 280px;
+      width: var(--sidebar-width);
       min-width: 180px;
       height: 100vh;
       position: fixed;
@@ -55,7 +62,6 @@
       left: 0;
       background-color: antiquewhite;
       z-index: 1000;
-      overflow-y: auto;
     }
 
 
@@ -92,6 +98,8 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      margin: 1.25rem;
+
     }
 
     h1{
