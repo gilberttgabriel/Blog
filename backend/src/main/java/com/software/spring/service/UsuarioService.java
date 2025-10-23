@@ -127,4 +127,8 @@ public class UsuarioService {
         // Puedes validar reglas (ej. no permitir borrar admins, etc.)
         repo.deleteById(id);
     }
+    public Usuario verDetalleUsuario(String id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
+    }
 }
