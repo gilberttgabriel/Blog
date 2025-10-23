@@ -11,7 +11,7 @@
       <a href="#" class="getOut"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H15M8 8L4 12M4 12L8 16M4 12L16 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>+<span>Salir</span></a>
     </nav>
   </aside>
-  <header class="header"></header>
+
 </template>
 
 <script>
@@ -19,6 +19,13 @@
 </script>
 
 <style>
+
+    :root {
+  /* ancho del sidebar: mínimo 200px, ideal 20vw, máximo 320px */
+  --sidebar-width: clamp(150px, 20vw, 320px);
+}
+
+    /* Reset CSS básico */
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -46,14 +53,18 @@
     }
 
     aside {
-      flex: 0 0 220px;
-      max-width: 220px;
+      display: flex;
+      width: var(--sidebar-width);
       min-width: 180px;
       height: 100vh;
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
       background-color: antiquewhite;
+      z-index: 1000;
     }
+
+
 
     .header {
       width: 100%;
@@ -71,41 +82,9 @@
       top: 0;
     }
 
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed,
-    figure, figcaption, footer, header, hgroup,
-    menu, nav, output, ruby, section, summary,
-    time, mark, audio, video {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font-size: 100%;
-      font: inherit;
-      box-sizing: border-box;
-      text-decoration: none;
-    }
 
-    aside{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      position: sticky;
-      top: 0;
-      justify-content: flex-start;
-      background-color: antiquewhite;
-      max-width: 20vw;
-      height: 100vh;
-      padding: 1.5rem;
 
-    }
+
 
     body{
       height: 300vh;
@@ -119,6 +98,8 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      margin: 1.25rem;
+
     }
 
     h1{
@@ -156,19 +137,6 @@
     nav>a:hover{
       color: blue;
       cursor: pointer;
-    }
-
-    .header{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 10vh;
-      padding: 1rem 2rem;
-      background-color: #be5858;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      border-bottom: 1px solid #e0e0e0;
-      z-index: 10;
-      width: 100%;
     }
 
     svg {
