@@ -18,27 +18,25 @@ public class UsuarioService {
     public UsuarioService(UsuarioRepository repo) {
         this.repo = repo;
     }
-    public Usuario crearUsuario(String username,
-                                String contraseña,
-                                String nombre,
-                                String apellido,
-                                String descripcion,
-                                Integer edad) {
+    public Usuario crearUsuario(Usuario usuario) {
 
         // Validaciones mínimas
-        if (!StringUtils.hasText(username) ||
-            !StringUtils.hasText(contraseña) ||
-            !StringUtils.hasText(nombre) ||
-            !StringUtils.hasText(apellido)) {
+        if (!StringUtils.hasText(usuario.getUsername()) ||
+            !StringUtils.hasText(usuario.getApellido()) ||
+            !StringUtils.hasText(usuario.getNombre()) ||
+            !StringUtils.hasText(usuario.getContraseña()) ||
+            !StringUtils.hasText(usuario.getDescripcion())||
+            !StringUtils.hasText(String.valueOf(usuario.getEdad())))
+             {
             throw new IllegalArgumentException("username, contraseña, nombre y apellido son obligatorios");
         }
 
-        if (edad != null && (edad < 0 || edad > 120)) {
+        if (usuario.getEdad() < 0 || usuario.getEdad()  > 120) {
             throw new IllegalArgumentException("edad inválida");
         }
 
         // Unicidad de username
-        repo.findByUsername(username).ifPresent(u -> {
+        repo.findByUsername(usuario.getUsername()).ifPresent(u -> {
             throw new IllegalStateException("Ya existe un usuario con ese username");
         });
 
@@ -52,14 +50,14 @@ public class UsuarioService {
 
         Usuario nuevo = new Usuario(
                 id,
-                username,
-                contraseña, // o hash
-                nombre,
-                apellido,
+                usuario.getUsername(),
+                usuario.getContraseña(), // o hash
+                usuario.getNombre(),
+                usuario.getApellido(),
                 activo,
                 ultimoAcceso,
-                descripcion,
-                edad
+                usuario.getDescripcion(),
+                usuario.getEdad()
         );
 
         return repo.save(nuevo);
