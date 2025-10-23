@@ -13,7 +13,7 @@ public class VerPerfilController {
         this.usuarioService = usuarioService;
     }
     @DeleteMapping
-    public ResponseEntity<Usuario> ver(@RequestBody Integer id) {
+    public ResponseEntity<Usuario> verDetalle(@RequestBody String id) {
         Usuario detalleUsuario = usuarioService.verDetalleUsuario(id);
         return ResponseEntity.status(201).body(detalleUsuario);
     }
