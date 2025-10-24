@@ -2,6 +2,7 @@ package com.software.spring.controller.publicacionControladores;
 
 import com.software.spring.model.entity.Publicacion;
 import com.software.spring.service.PublicacionService;
+import com.software.spring.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,11 @@ import java.util.List;
 @RequestMapping("/api/publicacion")
 public class VerPublicacionController {
     private final PublicacionService publicacionService;
+    private final UsuarioService usuarioService;
     
-    public VerPublicacionController(PublicacionService publicacionService) {
+    public VerPublicacionController(PublicacionService publicacionService, UsuarioService usuarioService) {
         this.publicacionService = publicacionService;
+        this.usuarioService = usuarioService;
     }
     
     @GetMapping("/{id}")
@@ -30,8 +33,12 @@ public class VerPublicacionController {
     
     @GetMapping("/autor/{autorId}")
     public ResponseEntity<List<Publicacion>> verPublicacionesPorAutor(@PathVariable String autorId) {
-        // Necesitarías crear un método para buscar Perfil por ID
-        // Por ahora, este endpoint está preparado para futuras implementaciones
-        return ResponseEntity.notFound().build();
+        // Verificar que el autor existe
+        usuarioService.obtenerPorId(autorId)
+            .orElseThrow(() -> new IllegalArgumentException("No se encontró el perfil con ID: " + autorId));
+        
+        // Buscar publicaciones del autor
+        List<Publicacion> publicaciones = publicacionService.verPublicacionesPorAutorId(autorId);
+        return ResponseEntity.ok(publicaciones);
     }
 }

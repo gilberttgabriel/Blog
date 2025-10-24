@@ -61,4 +61,11 @@ public class PublicacionService {
             .filter(p -> p.getAutor() != null && p.getAutor().equals(autor))
             .collect(java.util.stream.Collectors.toList());
     }
+
+    public java.util.List<Publicacion> verPublicacionesPorAutorId(String autorId) {
+        return repo.findAll().stream()
+            .filter(p -> p.getAutor() != null && autorId.equals(p.getAutor().getId()))
+            .collect(java.util.stream.Collectors.toList());
+    }
+
 }
