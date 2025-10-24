@@ -9,9 +9,7 @@ public class Publicacion {
     private String contenido;
     private Perfil autor;
     private LocalDateTime fechaCreacion;
-
-    // Constructor vacío
-    public Publicacion() {}
+ 
 
     // Constructor completo
     public Publicacion(Integer id, String titulo, String contenido, Perfil autor, LocalDateTime fechaCreacion) {
