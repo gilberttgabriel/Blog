@@ -8,6 +8,10 @@ public class Comentario {
     private Integer publicacionId;
     private LocalDateTime fechaCreacion;
 
+    // Constructor vacío (necesario para Jackson)
+    public Comentario() {
+    }
+
     public Comentario(Integer id, String contenido, String autor, Integer publicacionId, LocalDateTime fechaCreacion) {
         this.id = id;
         this.contenido = contenido;

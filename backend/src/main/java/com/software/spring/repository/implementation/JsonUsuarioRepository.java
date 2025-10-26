@@ -4,6 +4,7 @@ package com.software.spring.repository.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.software.spring.model.BaseDeDatos;
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,11 +33,6 @@ public class JsonUsuarioRepository implements UsuarioRepository {
     private final Path dbPath;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    // Wrapper interno para mapear el JSON
-    private static class Db {
-        public List<Usuario> usuarios = new ArrayList<>();
-    }
-
     public JsonUsuarioRepository(
             ObjectMapper injectedMapper,
             @Value("${app.dbPath:./data/db.json}") String configuredPath
@@ -57,8 +53,7 @@ public class JsonUsuarioRepository implements UsuarioRepository {
                 Files.createDirectories(dbPath.getParent());
             }
             if (Files.notExists(dbPath)) {
-                // Si tienes un seed en resources, podrías copiarlo aquí.
-                Db empty = new Db();
+                BaseDeDatos empty = new BaseDeDatos();
                 writeDbUnsafe(empty);
             }
         } catch (IOException e) {
@@ -66,16 +61,16 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         }
     }
 
-    private Db readDbUnsafe() throws IOException {
+    private BaseDeDatos readDbUnsafe() throws IOException {
         if (Files.size(dbPath) == 0L) {
-            Db empty = new Db();
+            BaseDeDatos empty = new BaseDeDatos();
             writeDbUnsafe(empty);
             return empty;
         }
-        return mapper.readValue(dbPath.toFile(), Db.class);
+        return mapper.readValue(dbPath.toFile(), BaseDeDatos.class);
     }
 
-    private void writeDbUnsafe(Db db) throws IOException {
+    private void writeDbUnsafe(BaseDeDatos db) throws IOException {
         mapper.writeValue(dbPath.toFile(), db);
     }
 
@@ -114,7 +109,7 @@ public class JsonUsuarioRepository implements UsuarioRepository {
     public Usuario save(Usuario usuario) {
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            BaseDeDatos db = readDbUnsafe();
             // Reemplaza si existe por id, si no, agrega
             db.usuarios = db.usuarios.stream()
                     .filter(u -> !Objects.equals(u.getId(), usuario.getId()))
@@ -134,7 +129,7 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         if (id == null || id.isBlank()) return;
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            BaseDeDatos db = readDbUnsafe();
             boolean changed = db.usuarios.removeIf(u -> Objects.equals(u.getId(), id));
             if (changed) {
                 writeDbUnsafe(db);

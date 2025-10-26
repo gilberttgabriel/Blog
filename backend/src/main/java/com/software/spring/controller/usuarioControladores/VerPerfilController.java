@@ -4,9 +4,8 @@ import com.software.spring.model.entity.Usuario;
 import com.software.spring.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -15,14 +14,20 @@ public class VerPerfilController {
     public VerPerfilController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
+    
     @GetMapping
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    public ResponseEntity<List<Usuario>> obtenerTodosLosUsuarios() {
+        List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
     
-    public ResponseEntity<Usuario> verDetalle(@RequestBody String id) {
-        Usuario detalleUsuario = usuarioService.verDetalleUsuario(id);
-        return ResponseEntity.status(201).body(detalleUsuario);
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable String id) {
+        Usuario usuario = usuarioService.verDetalleUsuario(id);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 

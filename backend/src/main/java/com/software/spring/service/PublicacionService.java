@@ -34,15 +34,17 @@ public class PublicacionService {
         if (publicacion.getFechaCreacion() == null) {
             publicacion.setFechaCreacion(LocalDateTime.now());
         }
-        String id = UUID.randomUUID().toString();
+        
+        // Generar un ID único para la publicación
+        Integer id = Math.abs(UUID.randomUUID().hashCode());
         
         Publicacion nuevo = new Publicacion(
-             Integer.parseInt(id),
+             id,
              publicacion.getTitulo(),
              publicacion.getContenido(),
-             publicacion.getAutor(),
+             publicacion.getAutorId(),
              publicacion.getFechaCreacion()
-    );
+        );
         // Guardar la publicación
         return repo.save(nuevo);
     }
@@ -56,15 +58,9 @@ public class PublicacionService {
         return repo.findAll();
     }
 
-    public java.util.List<Publicacion> verPublicacionesPorAutor(com.software.spring.model.entity.Perfil autor) {
-        return repo.findAll().stream()
-            .filter(p -> p.getAutor() != null && p.getAutor().equals(autor))
-            .collect(java.util.stream.Collectors.toList());
-    }
-
     public java.util.List<Publicacion> verPublicacionesPorAutorId(String autorId) {
         return repo.findAll().stream()
-            .filter(p -> p.getAutor() != null && autorId.equals(p.getAutor().getId()))
+            .filter(p -> p.getAutorId() != null && autorId.equals(p.getAutorId()))
             .collect(java.util.stream.Collectors.toList());
     }
 

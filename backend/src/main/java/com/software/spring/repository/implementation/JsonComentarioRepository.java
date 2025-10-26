@@ -2,6 +2,7 @@ package com.software.spring.repository.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.software.spring.model.BaseDeDatos;
 import com.software.spring.model.entity.Comentario;
 import com.software.spring.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +21,6 @@ public class JsonComentarioRepository implements ComentarioRepository {
     private final Path dbPath;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private static class Db {
-        public List<Comentario> comentarios = new ArrayList<>();
-    }
-
     public JsonComentarioRepository(
             ObjectMapper injectedMapper,
             @Value("${app.dbPath:./data/db.json}") String configuredPath
@@ -41,7 +38,7 @@ public class JsonComentarioRepository implements ComentarioRepository {
                 Files.createDirectories(dbPath.getParent());
             }
             if (Files.notExists(dbPath)) {
-                Db empty = new Db();
+                BaseDeDatos empty = new BaseDeDatos();
                 writeDbUnsafe(empty);
             }
         } catch (IOException e) {
@@ -49,16 +46,16 @@ public class JsonComentarioRepository implements ComentarioRepository {
         }
     }
 
-    private Db readDbUnsafe() throws IOException {
+    private BaseDeDatos readDbUnsafe() throws IOException {
         if (Files.size(dbPath) == 0L) {
-            Db empty = new Db();
+            BaseDeDatos empty = new BaseDeDatos();
             writeDbUnsafe(empty);
             return empty;
         }
-        return mapper.readValue(dbPath.toFile(), Db.class);
+        return mapper.readValue(dbPath.toFile(), BaseDeDatos.class);
     }
 
-    private void writeDbUnsafe(Db db) throws IOException {
+    private void writeDbUnsafe(BaseDeDatos db) throws IOException {
         mapper.writeValue(dbPath.toFile(), db);
     }
 
@@ -87,7 +84,7 @@ public class JsonComentarioRepository implements ComentarioRepository {
     public Comentario save(Comentario comentario) {
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            BaseDeDatos db = readDbUnsafe();
             db.comentarios = db.comentarios.stream()
                     .filter(c -> !Objects.equals(c.getId(), comentario.getId()))
                     .collect(Collectors.toCollection(ArrayList::new));
@@ -106,7 +103,7 @@ public class JsonComentarioRepository implements ComentarioRepository {
         if (id == null) return;
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            BaseDeDatos db = readDbUnsafe();
             boolean changed = db.comentarios.removeIf(c -> Objects.equals(c.getId(), id));
             if (changed) {
                 writeDbUnsafe(db);

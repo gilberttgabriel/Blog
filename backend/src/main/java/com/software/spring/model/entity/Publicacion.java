@@ -7,16 +7,20 @@ public class Publicacion {
     private Integer id;
     private String titulo;
     private String contenido;
-    private Perfil autor;
+    private String autorId;
     private LocalDateTime fechaCreacion;
  
 
+    // Constructor vacío (necesario para Jackson)
+    public Publicacion() {
+    }
+
     // Constructor completo
-    public Publicacion(Integer id, String titulo, String contenido, Perfil autor, LocalDateTime fechaCreacion) {
+    public Publicacion(Integer id, String titulo, String contenido, String autorId, LocalDateTime fechaCreacion) {
         this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
-        this.autor = autor;
+        this.autorId = autorId;
         this.fechaCreacion = fechaCreacion;
     }
 
@@ -30,8 +34,8 @@ public class Publicacion {
     public String getContenido() { return contenido; }
     public void setContenido(String contenido) { this.contenido = contenido; }
 
-    public Perfil getAutor() { return autor; }
-    public void setAutor(Perfil autor) { this.autor = autor; }
+    public String getAutorId() { return autorId; }
+    public void setAutorId(String autorId) { this.autorId = autorId; }
 
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
@@ -43,7 +47,7 @@ public class Publicacion {
                 "id='" + id + '\'' +
                 ", titulo='" + titulo + '\'' +
                 ", contenido='" + contenido + '\'' +
-                ", autor=" + (autor != null ? autor.getNombre() : "N/A") +
+                ", autorId='" + autorId + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
                 '}';
     }

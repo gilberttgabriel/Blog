@@ -2,6 +2,7 @@ package com.software.spring.repository.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.software.spring.model.BaseDeDatos;
 import com.software.spring.model.entity.Publicacion;
 import com.software.spring.repository.PublicacionRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,11 +31,6 @@ public class JsonPublicacionRepository implements PublicacionRepository {
     private final Path dbPath;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    // Wrapper interno para mapear el JSON
-    private static class Db {
-        public List<Publicacion> publicaciones = new ArrayList<>();
-    }
-
     public JsonPublicacionRepository(
             ObjectMapper injectedMapper,
             @Value("${app.dbPath:./data/db.json}") String configuredPath
@@ -55,7 +51,7 @@ public class JsonPublicacionRepository implements PublicacionRepository {
                 Files.createDirectories(dbPath.getParent());
             }
             if (Files.notExists(dbPath)) {
-                Db empty = new Db();
+                BaseDeDatos empty = new BaseDeDatos();
                 writeDbUnsafe(empty);
             }
         } catch (IOException e) {
@@ -63,16 +59,16 @@ public class JsonPublicacionRepository implements PublicacionRepository {
         }
     }
 
-    private Db readDbUnsafe() throws IOException {
+    private BaseDeDatos readDbUnsafe() throws IOException {
         if (Files.size(dbPath) == 0L) {
-            Db empty = new Db();
+            BaseDeDatos empty = new BaseDeDatos();
             writeDbUnsafe(empty);
             return empty;
         }
-        return mapper.readValue(dbPath.toFile(), Db.class);
+        return mapper.readValue(dbPath.toFile(), BaseDeDatos.class);
     }
 
-    private void writeDbUnsafe(Db db) throws IOException {
+    private void writeDbUnsafe(BaseDeDatos db) throws IOException {
         mapper.writeValue(dbPath.toFile(), db);
     }
 
@@ -111,7 +107,7 @@ public class JsonPublicacionRepository implements PublicacionRepository {
     public Publicacion save(Publicacion publicacion) {
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            BaseDeDatos db = readDbUnsafe();
             // Reemplaza si existe por id, si no, agrega
             db.publicaciones = db.publicaciones.stream()
                     .filter(p -> !Objects.equals(p.getId(), publicacion.getId()))
