@@ -8,7 +8,7 @@ public class Anuncio extends Publicacion{
     private LocalDateTime fechaFin;
     private String linkExterno;
 
-    public Anuncio(Integer id, String titulo, String contenido, Administrador autor, LocalDateTime fechaCreacion, byte[] imagen, LocalDateTime fechaInicio, LocalDateTime fechaFin, String linkExterno) {
+    public Anuncio(Integer id, String titulo, String contenido, String autor, LocalDateTime fechaCreacion, byte[] imagen, LocalDateTime fechaInicio, LocalDateTime fechaFin, String linkExterno) {
         super(id, titulo, contenido, autor, fechaCreacion);
         this.imagen = imagen;
         this.fechaInicio = fechaInicio;
