@@ -118,14 +118,24 @@ export default {
 
 <style scoped>
 .create-post-page {
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #f9f9f9;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .create-post-content {
   max-width: 900px;
-  margin: 3rem auto;
+  margin: 2rem auto;
   padding: 2rem;
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {

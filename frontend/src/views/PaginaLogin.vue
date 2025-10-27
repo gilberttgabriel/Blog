@@ -94,12 +94,18 @@ export default {
 
 <style scoped>
 .auth-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #f5f5dc;
   padding: 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .auth-box {

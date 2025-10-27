@@ -66,7 +66,7 @@
             id="descripcion" 
             v-model="registerData.descripcion" 
             placeholder="Cuéntanos algo sobre ti"
-            rows="3"
+            rows="2"
             required
           ></textarea>
         </div>
@@ -157,17 +157,23 @@ export default {
 
 <style scoped>
 .auth-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #f5f5dc;
   padding: 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .auth-box {
   background-color: white;
-  padding: 3rem;
+  padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-width: 500px;
@@ -179,18 +185,18 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.8rem;
 }
 
 .book-icon {
-  height: 3em;
-  width: 3em;
+  height: 2.5em;
+  width: 2.5em;
 }
 
 .auth-header h1 {
   font-family: 'FuenteHeader', sans-serif;
   font-style: italic;
-  font-size: 3rem;
+  font-size: 2.5rem;
   letter-spacing: -4px;
   font-weight: 700;
   color: black;
@@ -198,9 +204,9 @@ export default {
 
 h2 {
   font-family: 'FuenteHeader', sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
   color: #333;
 }
@@ -208,7 +214,7 @@ h2 {
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
 }
 
 .form-row {
@@ -220,23 +226,26 @@ h2 {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  min-width: 0;
 }
 
 label {
   font-family: 'FuenteHeader', sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #333;
 }
 
 input, textarea {
-  padding: 0.9rem 1.2rem;
+  width: 100%;
+  padding: 0.6rem 0.9rem;
   border: 2px solid #ddd;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-family: 'FuenteHeader', sans-serif;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 input:focus, textarea:focus {
@@ -246,21 +255,21 @@ input:focus, textarea:focus {
 
 textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 50px;
 }
 
 .btn-primary {
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: #a8d5ba;
   color: white;
   border: none;
   border-radius: 25px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   font-family: 'FuenteHeader', sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 1rem;
+  margin-top: 0.3rem;
 }
 
 .btn-primary:hover {
@@ -270,30 +279,30 @@ textarea {
 .error-message {
   background-color: #ffe6e6;
   color: #d32f2f;
-  padding: 0.8rem;
+  padding: 0.6rem;
   border-radius: 8px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .success-message {
   background-color: #e6f7ee;
   color: #2e7d32;
-  padding: 0.8rem;
+  padding: 0.6rem;
   border-radius: 8px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .auth-footer {
-  margin-top: 2rem;
+  margin-top: 0.8rem;
   text-align: center;
   font-family: 'FuenteHeader', sans-serif;
 }
 
 .auth-footer p {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .auth-footer a {

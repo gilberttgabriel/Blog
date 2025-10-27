@@ -2,7 +2,7 @@ package com.software.spring.repository.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.software.spring.model.BaseDeDatos;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.software.spring.model.entity.Comentario;
 import com.software.spring.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +14,10 @@ import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
+/**
+ * Repositorio que persiste comentarios en ./data/comentarios.json
+ * Estructura del archivo: [ { ...Comentario... }, ... ]
+ */
 @Repository
 public class JsonComentarioRepository implements ComentarioRepository {
 
@@ -23,7 +27,7 @@ public class JsonComentarioRepository implements ComentarioRepository {
 
     public JsonComentarioRepository(
             ObjectMapper injectedMapper,
-            @Value("${app.dbPath:./data/db.json}") String configuredPath
+            @Value("${app.comentariosPath:./data/comentarios.json}") String configuredPath
     ) {
         this.mapper = injectedMapper.copy()
                 .enable(SerializationFeature.INDENT_OUTPUT);
@@ -38,32 +42,31 @@ public class JsonComentarioRepository implements ComentarioRepository {
                 Files.createDirectories(dbPath.getParent());
             }
             if (Files.notExists(dbPath)) {
-                BaseDeDatos empty = new BaseDeDatos();
-                writeDbUnsafe(empty);
+                writeComentariosUnsafe(new ArrayList<>());
             }
         } catch (IOException e) {
-            throw new RuntimeException("No se pudo inicializar db.json en " + dbPath, e);
+            throw new RuntimeException("No se pudo inicializar comentarios.json en " + dbPath, e);
         }
     }
 
-    private BaseDeDatos readDbUnsafe() throws IOException {
+    private List<Comentario> readComentariosUnsafe() throws IOException {
         if (Files.size(dbPath) == 0L) {
-            BaseDeDatos empty = new BaseDeDatos();
-            writeDbUnsafe(empty);
+            List<Comentario> empty = new ArrayList<>();
+            writeComentariosUnsafe(empty);
             return empty;
         }
-        return mapper.readValue(dbPath.toFile(), BaseDeDatos.class);
+        return mapper.readValue(dbPath.toFile(), new TypeReference<List<Comentario>>() {});
     }
 
-    private void writeDbUnsafe(BaseDeDatos db) throws IOException {
-        mapper.writeValue(dbPath.toFile(), db);
+    private void writeComentariosUnsafe(List<Comentario> comentarios) throws IOException {
+        mapper.writeValue(dbPath.toFile(), comentarios);
     }
 
     @Override
     public List<Comentario> findAll() {
         lock.readLock().lock();
         try {
-            return new ArrayList<>(readDbUnsafe().comentarios);
+            return new ArrayList<>(readComentariosUnsafe());
         } catch (IOException e) {
             throw new RuntimeException("Error leyendo comentarios desde " + dbPath, e);
         } finally {
@@ -84,12 +87,12 @@ public class JsonComentarioRepository implements ComentarioRepository {
     public Comentario save(Comentario comentario) {
         lock.writeLock().lock();
         try {
-            BaseDeDatos db = readDbUnsafe();
-            db.comentarios = db.comentarios.stream()
+            List<Comentario> comentarios = readComentariosUnsafe();
+            comentarios = comentarios.stream()
                     .filter(c -> !Objects.equals(c.getId(), comentario.getId()))
                     .collect(Collectors.toCollection(ArrayList::new));
-            db.comentarios.add(comentario);
-            writeDbUnsafe(db);
+            comentarios.add(comentario);
+            writeComentariosUnsafe(comentarios);
             return comentario;
         } catch (IOException e) {
             throw new RuntimeException("Error escribiendo comentarios en " + dbPath, e);
@@ -103,10 +106,10 @@ public class JsonComentarioRepository implements ComentarioRepository {
         if (id == null) return;
         lock.writeLock().lock();
         try {
-            BaseDeDatos db = readDbUnsafe();
-            boolean changed = db.comentarios.removeIf(c -> Objects.equals(c.getId(), id));
+            List<Comentario> comentarios = readComentariosUnsafe();
+            boolean changed = comentarios.removeIf(c -> Objects.equals(c.getId(), id));
             if (changed) {
-                writeDbUnsafe(db);
+                writeComentariosUnsafe(comentarios);
             }
         } catch (IOException e) {
             throw new RuntimeException("Error eliminando comentario en " + dbPath, e);

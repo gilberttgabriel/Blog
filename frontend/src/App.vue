@@ -86,9 +86,6 @@ export default {
     top: 0;
   }
 
-  body{
-    height: 300vh;
-  }
 
   nav{
     display: flex;
@@ -145,7 +142,7 @@ export default {
 
   .content {
     margin-left: var(--sidebar-width);
-    padding: 2rem;
+    padding: 0;
   }
 
   .content-full {
