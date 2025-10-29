@@ -97,17 +97,12 @@ public class JsonPublicacionRepository implements PublicacionRepository {
     }
 
     @Override
-    public Publicacion save(Publicacion publicacion) {
+    public void save(Publicacion publicacion) {
         lock.writeLock().lock();
         try {
             List<Publicacion> publicaciones = readPublicacionesUnsafe();
-            // Reemplaza si existe por id, si no, agrega
-            publicaciones = publicaciones.stream()
-                    .filter(p -> !Objects.equals(p.getId(), publicacion.getId()))
-                    .collect(Collectors.toCollection(ArrayList::new));
             publicaciones.add(publicacion);
             writePublicacionesUnsafe(publicaciones);
-            return publicacion;
         } catch (IOException e) {
             throw new RuntimeException("Error escribiendo publicaciones en " + dbPath, e);
         } finally {
