@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "ChatMenu"
+  name: "MenuChats"
 }
 </script>
 
@@ -35,3 +35,6 @@ export default {
     stroke: black;
   }
 </style>
+
+
+

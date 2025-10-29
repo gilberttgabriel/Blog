@@ -4,6 +4,7 @@ package com.software.spring.repository.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +17,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 /**
- * Repositorio que persiste usuarios en ./data/db.json bajo la clave "usuarios".
- * Estructura del archivo:
- * {
- *   "usuarios": [ { ...Usuario... }, ... ]
- * }
- *
- * Requisitos: Usuario (y su superclase Perfil) deben ser deserializables por Jackson
- * (constructor vacío o @JsonCreator + @JsonProperty).
+ * Repositorio que persiste usuarios en ./data/usuarios.json
+ * Estructura del archivo: [ { ...Usuario... }, ... ]
  */
 @Repository
 public class JsonUsuarioRepository implements UsuarioRepository {
@@ -32,14 +27,9 @@ public class JsonUsuarioRepository implements UsuarioRepository {
     private final Path dbPath;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    // Wrapper interno para mapear el JSON
-    private static class Db {
-        public List<Usuario> usuarios = new ArrayList<>();
-    }
-
     public JsonUsuarioRepository(
             ObjectMapper injectedMapper,
-            @Value("${app.dbPath:./data/db.json}") String configuredPath
+            @Value("${app.usuariosPath:./data/usuarios.json}") String configuredPath
     ) {
         this.mapper = injectedMapper.copy()
                 .enable(SerializationFeature.INDENT_OUTPUT);
@@ -57,26 +47,24 @@ public class JsonUsuarioRepository implements UsuarioRepository {
                 Files.createDirectories(dbPath.getParent());
             }
             if (Files.notExists(dbPath)) {
-                // Si tienes un seed en resources, podrías copiarlo aquí.
-                Db empty = new Db();
-                writeDbUnsafe(empty);
+                writeUsuariosUnsafe(new ArrayList<>());
             }
         } catch (IOException e) {
-            throw new RuntimeException("No se pudo inicializar db.json en " + dbPath, e);
+            throw new RuntimeException("No se pudo inicializar usuarios.json en " + dbPath, e);
         }
     }
 
-    private Db readDbUnsafe() throws IOException {
+    private List<Usuario> readUsuariosUnsafe() throws IOException {
         if (Files.size(dbPath) == 0L) {
-            Db empty = new Db();
-            writeDbUnsafe(empty);
+            List<Usuario> empty = new ArrayList<>();
+            writeUsuariosUnsafe(empty);
             return empty;
         }
-        return mapper.readValue(dbPath.toFile(), Db.class);
+        return mapper.readValue(dbPath.toFile(), new TypeReference<List<Usuario>>() {});
     }
 
-    private void writeDbUnsafe(Db db) throws IOException {
-        mapper.writeValue(dbPath.toFile(), db);
+    private void writeUsuariosUnsafe(List<Usuario> usuarios) throws IOException {
+        mapper.writeValue(dbPath.toFile(), usuarios);
     }
 
     /* ==========================
@@ -86,7 +74,7 @@ public class JsonUsuarioRepository implements UsuarioRepository {
     public List<Usuario> findAll() {
         lock.readLock().lock();
         try {
-            return new ArrayList<>(readDbUnsafe().usuarios);
+            return new ArrayList<>(readUsuariosUnsafe());
         } catch (IOException e) {
             throw new RuntimeException("Error leyendo usuarios desde " + dbPath, e);
         } finally {
@@ -114,13 +102,13 @@ public class JsonUsuarioRepository implements UsuarioRepository {
     public Usuario save(Usuario usuario) {
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
+            List<Usuario> usuarios = readUsuariosUnsafe();
             // Reemplaza si existe por id, si no, agrega
-            db.usuarios = db.usuarios.stream()
+            usuarios = usuarios.stream()
                     .filter(u -> !Objects.equals(u.getId(), usuario.getId()))
                     .collect(Collectors.toCollection(ArrayList::new));
-            db.usuarios.add(usuario);
-            writeDbUnsafe(db);
+            usuarios.add(usuario);
+            writeUsuariosUnsafe(usuarios);
             return usuario;
         } catch (IOException e) {
             throw new RuntimeException("Error escribiendo usuarios en " + dbPath, e);
@@ -134,10 +122,10 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         if (id == null || id.isBlank()) return;
         lock.writeLock().lock();
         try {
-            Db db = readDbUnsafe();
-            boolean changed = db.usuarios.removeIf(u -> Objects.equals(u.getId(), id));
+            List<Usuario> usuarios = readUsuariosUnsafe();
+            boolean changed = usuarios.removeIf(u -> Objects.equals(u.getId(), id));
             if (changed) {
-                writeDbUnsafe(db);
+                writeUsuariosUnsafe(usuarios);
             }
         } catch (IOException e) {
             throw new RuntimeException("Error eliminando usuario en " + dbPath, e);

@@ -69,6 +69,10 @@ public class UsuarioService {
     public List<Usuario> listarUsuarios() {
         return repo.findAll();
     }
+    
+    public List<Usuario> obtenerTodosLosUsuarios() {
+        return repo.findAll();
+    }
 
     public Optional<Usuario> obtenerPorId(String id) {
         if (!StringUtils.hasText(id)) return Optional.empty();
@@ -78,6 +82,29 @@ public class UsuarioService {
     public Optional<Usuario> obtenerPorUsername(String username) {
         if (!StringUtils.hasText(username)) return Optional.empty();
         return repo.findByUsername(username);
+    }
+
+    /* ==========================
+       Autenticación (Login)
+       ========================== */
+    public Usuario autenticarUsuario(String username, String contraseña) {
+        if (!StringUtils.hasText(username) || !StringUtils.hasText(contraseña)) {
+            throw new IllegalArgumentException("Username y contraseña son obligatorios");
+        }
+
+        Usuario usuario = repo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Credenciales inválidas"));
+
+        // Verificar contraseña (en producción deberías usar BCrypt)
+        if (!usuario.getContraseña().equals(contraseña)) {
+            throw new IllegalArgumentException("Credenciales inválidas");
+        }
+
+        // Actualizar último acceso
+        usuario.setUltimoAcceso(LocalDateTime.now());
+        repo.save(usuario);
+
+        return usuario;
     }
 
     /* ==========================

@@ -1,4 +1,4 @@
-package com.software.spring.controller;
+package com.software.spring.controller.usuarioControladores;
 
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.service.UsuarioService;
@@ -12,7 +12,7 @@ public class CrearPerfilController {
     public CrearPerfilController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
-    @DeleteMapping
+    @PostMapping
     public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
         Usuario creado = usuarioService.crearUsuario(usuario);
         return ResponseEntity.status(201).body(creado);

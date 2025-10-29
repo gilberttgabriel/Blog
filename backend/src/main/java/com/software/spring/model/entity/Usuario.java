@@ -7,6 +7,11 @@ public class Usuario extends Perfil {
     private String descripcion;
     private Integer edad;
 
+    // Constructor vacío (necesario para Jackson)
+    public Usuario() {
+        super(null, null, null, null, null, true, null);
+    }
+
     public Usuario(String id, String username, String contraseña, String nombre, String apellido, boolean activo, LocalDateTime ultimoAcceso, String descripcion, Integer edad) {
         super(id, username, contraseña, nombre, apellido, activo, ultimoAcceso);
         this.descripcion = descripcion;
