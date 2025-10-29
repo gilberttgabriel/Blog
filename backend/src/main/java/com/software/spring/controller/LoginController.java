@@ -47,28 +47,7 @@ public class LoginController {
      * Endpoint para registro de nuevo usuario
      * POST /api/auth/register
      */
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
-        try {
-            Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
-            
-            // Crear respuesta sin exponer la contraseña
-            LoginResponse response = new LoginResponse(
-                nuevoUsuario.getId(),
-                nuevoUsuario.getUsername(),
-                nuevoUsuario.getNombre(),
-                nuevoUsuario.getApellido(),
-                nuevoUsuario.getDescripcion(),
-                nuevoUsuario.getEdad(),
-                "Usuario registrado exitosamente"
-            );
-            
-            return ResponseEntity.status(201).body(response);
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.status(400)
-                .body(new ErrorResponse("Error en el registro: " + e.getMessage()));
-        }
-    }
+
     
     // Clases internas para las peticiones y respuestas
     

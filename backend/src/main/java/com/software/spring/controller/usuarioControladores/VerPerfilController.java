@@ -29,6 +29,4 @@ public class VerPerfilController {
         }
         return ResponseEntity.notFound().build();
     }
-
-
 }

@@ -32,7 +32,7 @@ const router = createRouter({
     routes
 })
 
-// Guard para verificar autenticación - OBLIGATORIO para todas las rutas
+// Comprobacion de si estas logeado o no
 router.beforeEach((to, from, next) => {
     const user = localStorage.getItem('user');
     const isPublicRoute = to.meta.isPublic;
