@@ -72,7 +72,10 @@ public class JsonPublicacionRepository implements PublicacionRepository {
     public List<Publicacion> findAll() {
         lock.readLock().lock();
         try {
-            return new ArrayList<>(readPublicacionesUnsafe());
+            return readPublicacionesUnsafe().stream()
+                    .sorted(Comparator.comparing(Publicacion::getFechaCreacion, 
+                            Comparator.nullsLast(Comparator.reverseOrder())))
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Error leyendo publicaciones desde " + dbPath, e);
         } finally {

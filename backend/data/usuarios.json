@@ -28,4 +28,34 @@
   "ultimoAcceso" : "2025-10-26T21:35:09.7014829",
   "descripcion" : "soy maria",
   "edad" : 21
+}, {
+  "id" : "7fe26e73-0106-48e2-9274-5793f397304e",
+  "username" : "maria",
+  "contraseña" : "12345",
+  "nombre" : "maria",
+  "apellido" : "jol",
+  "activo" : true,
+  "ultimoAcceso" : "2025-10-31T12:02:40.693017",
+  "descripcion" : "soy maria",
+  "edad" : 21
+}, {
+  "id" : "ed3e0a14-77d9-436a-a3da-cce804bb68b0",
+  "username" : "999-*/",
+  "contraseña" : "daniel",
+  "nombre" : "daniel",
+  "apellido" : "v",
+  "activo" : true,
+  "ultimoAcceso" : "2025-10-31T12:14:02.9087708",
+  "descripcion" : "daniel",
+  "edad" : 13
+}, {
+  "id" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
+  "username" : "val",
+  "contraseña" : "123",
+  "nombre" : "valeria",
+  "apellido" : "leon",
+  "activo" : true,
+  "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
+  "descripcion" : "bien",
+  "edad" : 21
 } ]
