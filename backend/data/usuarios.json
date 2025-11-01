@@ -58,4 +58,24 @@
   "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
   "descripcion" : "bien",
   "edad" : 21
+}, {
+  "id" : "18e1a1e8-c87f-47ff-b20e-753b3963e05b",
+  "username" : "hpl21",
+  "contraseña" : "Bob.2003",
+  "nombre" : "Humberto",
+  "apellido" : "Villacis",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-01T19:07:28.997621567",
+  "descripcion" : "Me gusta el cine",
+  "edad" : 22
+}, {
+  "id" : "18e1a1e8-c87f-47ff-b20e-753b3963e05b",
+  "username" : "hpl21",
+  "contraseña" : "Bob.2003",
+  "nombre" : "Humberto",
+  "apellido" : "Villacis",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-01T19:09:25.545961086",
+  "descripcion" : "Me gusta el cine",
+  "edad" : 22
 } ]
