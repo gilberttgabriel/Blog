@@ -123,7 +123,8 @@ export default {
       this.successMessage = '';
       
       try {
-        const response = await fetch('http://localhost:8080/api/auth/register', {
+        
+        const response = await fetch('http://localhost:8080/api/usuarios/crear', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -31,6 +31,7 @@
           v-for="publicacion in publicaciones" 
           :key="publicacion.id" 
           class="publicacion-card"
+          @click="irAPublicacion(publicacion.id)"
         >
           <h2>{{ publicacion.titulo }}</h2>
           <p class="contenido">{{ publicacion.contenido }}</p>
@@ -130,6 +131,9 @@ export default {
         month: 'long', 
         day: 'numeric' 
       });
+    },
+    irAPublicacion(publicacionId) {
+      this.$router.push(`/post/${publicacionId}`);
     }
   }
 }

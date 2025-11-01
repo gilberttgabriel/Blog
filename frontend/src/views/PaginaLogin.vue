@@ -73,7 +73,7 @@ export default {
           body: JSON.stringify(this.loginData)
         });
         
-        if (response.ok) {
+        if (response.ok) { // si no hubo error en el login / credenciales correctas
           const data = await response.json();
           // Guardar datos del usuario en localStorage
           localStorage.setItem('user', JSON.stringify(data));

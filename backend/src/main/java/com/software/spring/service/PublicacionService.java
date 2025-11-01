@@ -46,7 +46,8 @@ public class PublicacionService {
              publicacion.getFechaCreacion()
         );
         // Guardar la publicación
-        return repo.save(nuevo);
+        repo.save(nuevo);
+        return nuevo;
     }
 
     public Publicacion verPublicacion(Integer id) {

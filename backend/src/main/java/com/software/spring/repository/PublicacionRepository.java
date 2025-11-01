@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.List;
 
 public interface PublicacionRepository {
-    Publicacion save(Publicacion publicacion);
+    void save(Publicacion publicacion);
     Optional<Publicacion> findById(Integer id);
     Optional<Publicacion> findByTitulo(String titulo);
     List<Publicacion> findAll();

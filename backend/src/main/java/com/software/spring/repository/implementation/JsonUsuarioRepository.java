@@ -38,9 +38,6 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         ensureDbExists();
     }
 
-    /* ==========================
-       Infra JSON
-       ========================== */
     private void ensureDbExists() {
         try {
             if (dbPath.getParent() != null) {
@@ -67,9 +64,6 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         mapper.writeValue(dbPath.toFile(), usuarios);
     }
 
-    /* ==========================
-       Implementación Repository
-       ========================== */
     @Override
     public List<Usuario> findAll() {
         lock.readLock().lock();
@@ -103,10 +97,6 @@ public class JsonUsuarioRepository implements UsuarioRepository {
         lock.writeLock().lock();
         try {
             List<Usuario> usuarios = readUsuariosUnsafe();
-            // Reemplaza si existe por id, si no, agrega
-            usuarios = usuarios.stream()
-                    .filter(u -> !Objects.equals(u.getId(), usuario.getId()))
-                    .collect(Collectors.toCollection(ArrayList::new));
             usuarios.add(usuario);
             writeUsuariosUnsafe(usuarios);
             return usuario;
