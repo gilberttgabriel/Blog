@@ -42,7 +42,7 @@
       </form>
       
       <div class="auth-footer">
-        <p>¿No tienes cuenta? <router-link to="/register">Regístrate aquí</router-link></p>
+        <p>¿No tienes cuenta? <router-link to="/registro">Regístrate aquí</router-link></p>
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@ export default {
           // Guardar datos del usuario en localStorage
           localStorage.setItem('user', JSON.stringify(data));
           // Redirigir a la página principal
-          this.$router.push('/home');
+          this.$router.push('/inicio');
         } else {
           const error = await response.json();
           this.errorMessage = error.error || 'Error al iniciar sesión';

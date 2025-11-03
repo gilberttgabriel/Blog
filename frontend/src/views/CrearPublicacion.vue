@@ -64,7 +64,7 @@ export default {
       this.postData.autorId = user.id;
     } else {
       // Si no hay usuario, redirigir al login
-      this.$router.push('/login');
+      this.$router.push('/autenticacion');
     }
   },
   methods: {
@@ -90,7 +90,7 @@ export default {
           
           // Redirigir después de 1.5 segundos
           setTimeout(() => {
-            this.$router.push('/home');
+            this.$router.push('/inicio');
           }, 1500);
         } else {
           const error = await response.json();
@@ -110,7 +110,7 @@ export default {
       this.successMessage = '';
       
       // Regresar a la página principal
-      this.$router.push('/home');
+      this.$router.push('/inicio');
     }
   }
 }

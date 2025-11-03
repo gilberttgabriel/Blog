@@ -58,4 +58,14 @@
   "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
   "descripcion" : "bien",
   "edad" : 21
+}, {
+  "id" : "68e678d2-9153-4751-bd1c-23a279d6ade0",
+  "username" : "gilbertmatatan",
+  "contraseña" : "12345",
+  "nombre" : "gilberto",
+  "apellido" : "moncada",
+  "activo" : true,
+  "ultimoAcceso" : "2025-10-31T13:30:51.4526501",
+  "descripcion" : "hoa",
+  "edad" : 21
 } ]

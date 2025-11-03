@@ -12,19 +12,19 @@ const routes = [
         path: '/', 
         redirect: () => {
             const user = localStorage.getItem('user');
-            return user ? '/home' : '/login';
+            return user ? '/inicio' : '/autenticacion';
         }
     },
-    { path: '/home', component: PaginaInicio, meta: { requiresAuth: true } },
+    { path: '/inicio', component: PaginaInicio, meta: { requiresAuth: true } },
     { path: '/chats', component: MenuChats, meta: { requiresAuth: true } },
-    { path: '/profile', component: PaginaPerfil, meta: { requiresAuth: true } },
-    { path: '/profile/:id', component: PaginaPerfil, meta: { requiresAuth: true } },
-    { path: '/post/:id', component: PaginaPublicacion, meta: { requiresAuth: true } },
-    { path: '/create', component: CrearPublicacion, meta: { requiresAuth: true } },
-    { path: '/login', component: PaginaLogin, meta: { hideLayout: true, isPublic: true } },
-    { path: '/register', component: PaginaRegistro, meta: { hideLayout: true, isPublic: true } },
+    { path: '/perfil', component: PaginaPerfil, meta: { requiresAuth: true } },
+    { path: '/perfil/:id', component: PaginaPerfil, meta: { requiresAuth: true } },
+    { path: '/publicacion/:id', component: PaginaPublicacion, meta: { requiresAuth: true } },
+    { path: '/crear', component: CrearPublicacion, meta: { requiresAuth: true } },
+    { path: '/autenticacion', component: PaginaLogin, meta: { hideLayout: true, isPublic: true } },
+    { path: '/registro', component: PaginaRegistro, meta: { hideLayout: true, isPublic: true } },
     // Ruta catch-all para redirigir a login
-    { path: '/:pathMatch(.*)*', redirect: '/login' }
+    { path: '/:pathMatch(.*)*', redirect: '/autenticacion' }
 ]
 
 const router = createRouter({
@@ -39,11 +39,11 @@ router.beforeEach((to, from, next) => {
     
     // Si no hay usuario y la ruta NO es pública (login/register)
     if (!user && !isPublicRoute) {
-        next('/login');
+        next('/autenticacion');
     } 
     // Si hay usuario y trata de ir a login/register, redirigir a home
     else if (user && isPublicRoute) {
-        next('/home');
+        next('/inicio');
     } 
     // En cualquier otro caso, permitir la navegación
     else {

@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comentarios")
+@RequestMapping("/api/comentariospublicacion")
 public class EliminarComentario {
 
     private final ComentarioService comentarioService;

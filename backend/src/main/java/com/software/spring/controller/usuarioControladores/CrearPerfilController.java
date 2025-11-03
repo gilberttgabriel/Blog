@@ -1,7 +1,7 @@
 package com.software.spring.controller.usuarioControladores;
 
-import com.software.spring.controller.LoginController.ErrorResponse;
-import com.software.spring.controller.LoginController.LoginResponse;
+import com.software.spring.controller.usuarioControladores.LoginController.ErrorResponse;
+import com.software.spring.controller.usuarioControladores.LoginController.LoginResponse;
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.service.UsuarioService;
 import org.springframework.http.ResponseEntity;

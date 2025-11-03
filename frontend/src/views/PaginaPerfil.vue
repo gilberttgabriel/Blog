@@ -23,7 +23,7 @@
       
       <div v-else-if="publicaciones.length === 0" class="empty-state">
         <p>No has creado publicaciones aún</p>
-        <router-link to="/create" class="btn-create">Crear mi primera publicación</router-link>
+        <router-link to="/crear" class="btn-create">Crear mi primera publicación</router-link>
       </div>
       
       <div v-else class="publicaciones-list">
@@ -72,7 +72,7 @@ export default {
         
         if (!userData) {
           // Si no hay datos, redirigir al login
-          this.$router.push('/login');
+          this.$router.push('/autenticacion');
           return;
         }
         
@@ -133,7 +133,7 @@ export default {
       });
     },
     irAPublicacion(publicacionId) {
-      this.$router.push(`/post/${publicacionId}`);
+      this.$router.push(`/publicacion/${publicacionId}`);
     }
   }
 }

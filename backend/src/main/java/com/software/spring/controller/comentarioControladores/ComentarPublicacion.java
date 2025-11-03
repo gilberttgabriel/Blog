@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comentarios")
+@RequestMapping("/api/comentariospublicacion")
 public class ComentarPublicacion {
 
     private final ComentarioService comentarioService;
@@ -30,11 +30,8 @@ public class ComentarPublicacion {
     }
     
     
-    @GetMapping("/publicacion/{publicacionId}")
+    @GetMapping("/{publicacionId}")
     public ResponseEntity<List<Comentario>> verComentariosPorPublicacion(@PathVariable Integer publicacionId) {
-        // Verificar que la publicación existe
-        publicacionService.verPublicacion(publicacionId);
-        
         List<Comentario> comentarios = comentarioService.verComentariosPorPublicacion(publicacionId);
         return ResponseEntity.ok(comentarios);
     }

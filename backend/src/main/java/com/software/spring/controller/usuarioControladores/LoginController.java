@@ -1,4 +1,4 @@
-package com.software.spring.controller;
+package com.software.spring.controller.usuarioControladores;
 
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.service.UsuarioService;

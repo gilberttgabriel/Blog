@@ -57,13 +57,29 @@
             class="comentario-card"
           >
             <div class="comentario-header">
-              <span 
-                class="comentario-autor"
-                @click="irAPerfil(comentario.autor)"
+              <div class="comentario-info">
+                <span 
+                  class="comentario-autor"
+                  @click="irAPerfil(comentario.autor)"
+                >
+                  {{ obtenerNombreAutorComentario(comentario.autor) }}
+                </span>
+                <span class="comentario-fecha">{{ formatDate(comentario.fechaCreacion) }}</span>
+              </div>
+              <button 
+                v-if="puedeEliminarComentario(comentario.autor)"
+                @click="eliminarComentario(comentario.id)"
+                class="btn-eliminar"
+                title="Eliminar comentario"
               >
-                {{ obtenerNombreAutorComentario(comentario.autor) }}
-              </span>
-              <span class="comentario-fecha">{{ formatDate(comentario.fechaCreacion) }}</span>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
             <p class="comentario-contenido">{{ comentario.contenido }}</p>
           </div>
@@ -73,7 +89,7 @@
     
     <div v-else class="error-state">
       <p>No se pudo cargar la publicación.</p>
-      <button @click="$router.push('/home')" class="btn-volver">Volver al inicio</button>
+      <button @click="$router.push('/inicio')" class="btn-volver">Volver al inicio</button>
     </div>
   </div>
 </template>
@@ -101,14 +117,14 @@ export default {
         const publicacionId = this.$route.params.id;
         
         if (!publicacionId) {
-          this.$router.push('/home');
+          this.$router.push('/inicio');
           return;
         }
         
         // Cargar publicación, comentarios y usuarios en paralelo
         const [pubRes, comRes, usersRes] = await Promise.all([
           fetch(`http://localhost:8080/api/publicacion/${publicacionId}`),
-          fetch(`http://localhost:8080/api/comentarios/publicacion/${publicacionId}`),
+          fetch(`http://localhost:8080/api/comentariospublicacion/${publicacionId}`),
           fetch('http://localhost:8080/api/usuarios')
         ]);
         
@@ -139,7 +155,7 @@ export default {
       try {
         const userData = localStorage.getItem('user');
         if (!userData) {
-          this.$router.push('/login');
+          this.$router.push('/autenticacion');
           return;
         }
         
@@ -151,7 +167,7 @@ export default {
           publicacionId: parseInt(this.$route.params.id)
         };
         
-        const response = await fetch('http://localhost:8080/api/comentarios', {
+        const response = await fetch('http://localhost:8080/api/comentariospublicacion', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -172,8 +188,34 @@ export default {
       const usuario = this.usuarios.find(u => u.id === autorId);
       return usuario ? usuario.username : 'Usuario desconocido';
     },
+    puedeEliminarComentario(autorId) {
+      const userData = localStorage.getItem('user');
+      const user = JSON.parse(userData);
+      return user.id === autorId;
+    },
+    async eliminarComentario(comentarioId) {
+      if (!confirm('¿Estás seguro de que quieres eliminar este comentario?')) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`http://localhost:8080/api/comentariospublicacion/${comentarioId}`, {
+          method: 'DELETE'
+        });
+        
+        if (response.ok || response.status === 204) {
+          // Eliminar el comentario de la lista local
+          this.comentarios = this.comentarios.filter(c => c.id !== comentarioId);
+        } else {
+          alert('Error al eliminar el comentario');
+        }
+      } catch (error) {
+        console.error('Error eliminando comentario:', error);
+        alert('Error al eliminar el comentario');
+      }
+    },
     irAPerfil(autorId) {
-      this.$router.push(`/profile/${autorId}`);
+      this.$router.push(`/perfil/${autorId}`);
     },
     formatDate(dateString) {
       if (!dateString) return '';
@@ -367,6 +409,12 @@ export default {
   margin-bottom: 0.7rem;
 }
 
+.comentario-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
 .comentario-autor {
   font-family: 'FuenteHeader', sans-serif;
   font-size: 0.95rem;
@@ -386,6 +434,29 @@ export default {
   font-family: 'FuenteHeader', sans-serif;
   font-size: 0.85rem;
   color: #999;
+}
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-eliminar svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.btn-eliminar:hover {
+  background-color: #ffe6e6;
+  color: #d32f2f;
 }
 
 .comentario-contenido {

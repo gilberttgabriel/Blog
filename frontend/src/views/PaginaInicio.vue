@@ -22,7 +22,7 @@
       
       <div v-else-if="filteredPublicaciones.length === 0" class="empty-state">
         <p>No hay publicaciones aún</p>
-        <router-link to="/create" class="btn-create">Crear la primera publicación</router-link>
+        <router-link to="/crear" class="btn-create">Crear la primera publicación</router-link>
       </div>
       
       <div v-else class="publicaciones-list">
@@ -104,10 +104,10 @@ export default {
       return usuario ? usuario.username : 'Usuario desconocido';
     },
     irAPublicacion(publicacionId) {
-      this.$router.push(`/post/${publicacionId}`);
+      this.$router.push(`/publicacion/${publicacionId}`);
     },
     irAPerfil(autorId) {
-      this.$router.push(`/profile/${autorId}`);
+      this.$router.push(`/perfil/${autorId}`);
     },
     handleSearch() {
       // La búsqueda se hace automáticamente con el computed property

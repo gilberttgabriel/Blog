@@ -94,7 +94,7 @@
       </form>
       
       <div class="auth-footer">
-        <p>¿Ya tienes cuenta? <router-link to="/login">Inicia sesión aquí</router-link></p>
+        <p>¿Ya tienes cuenta? <router-link to="/autenticacion">Inicia sesión aquí</router-link></p>
       </div>
     </div>
   </div>
@@ -141,7 +141,7 @@ export default {
           
           // Redirigir después de 1.5 segundos
           setTimeout(() => {
-            this.$router.push('/home');
+            this.$router.push('/inicio');
           }, 1500);
         } else {
           const error = await response.json();
