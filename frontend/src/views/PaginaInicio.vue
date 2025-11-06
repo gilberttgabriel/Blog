@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <div class="header">
+    <!-- <div class="header">
       <div class="search-bar">
         <input 
           type="text" 
@@ -13,7 +13,7 @@
           <path d="M21 21L16.65 16.65" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-    </div>
+    </div> -->
 
     <!-- Banner de Anuncio -->
     <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)">
@@ -27,14 +27,14 @@
         Cargando publicaciones...
       </div>
       
-      <div v-else-if="filteredPublicaciones.length === 0" class="empty-state">
+      <div v-else-if="publicaciones.length === 0" class="empty-state">
         <p>No hay publicaciones aún</p>
         <router-link to="/crear" class="btn-create">Crear la primera publicación</router-link>
       </div>
       
       <div v-else class="publicaciones-list">
         <div 
-          v-for="publicacion in filteredPublicaciones" 
+          v-for="publicacion in publicaciones" 
           :key="publicacion.id" 
           class="publicacion-card"
           @click="irAPublicacion(publicacion.id)"
@@ -65,12 +65,13 @@ export default {
       publicaciones: [],
       usuarios: [],
       anuncio: null,
-      searchQuery: '',
+      // searchQuery: '',  // Comentado para después
       loading: false,
       isAdmin: false
     }
   },
-  computed: {
+  // Buscador comentado para después
+  /* computed: {
     filteredPublicaciones() {
       if (!this.searchQuery) {
         return this.publicaciones;
@@ -81,7 +82,7 @@ export default {
         pub.contenido.toLowerCase().includes(query)
       );
     }
-  },
+  }, */
   mounted() {
     this.checkUserType();
     this.cargarDatos();
@@ -134,9 +135,9 @@ export default {
     irAAnuncio(anuncioId) {
       this.$router.push(`/anuncio/${anuncioId}`);
     },
-    handleSearch() {
+    /* handleSearch() {
       // La búsqueda se hace automáticamente con el computed property
-    },
+    }, */
     formatDate(dateString) {
       if (!dateString) return '';
       const date = new Date(dateString);
