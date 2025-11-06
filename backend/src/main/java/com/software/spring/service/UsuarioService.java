@@ -102,41 +102,9 @@ public class UsuarioService {
 
         // Actualizar último acceso
         usuario.setUltimoAcceso(LocalDateTime.now());
-        repo.save(usuario);
 
         return usuario;
     }
-
-    /* ==========================
-       Actualizaciones
-       ========================== */
-    public Usuario actualizarDescripcionYEdad(String id, String nuevaDescripcion, Integer nuevaEdad) {
-        Usuario existente = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
-
-        if (nuevaEdad != null && (nuevaEdad < 0 || nuevaEdad > 120)) {
-            throw new IllegalArgumentException("edad inválida");
-        }
-
-        // Solo toca campos propios de Usuario (no Perfil)
-        if (nuevaDescripcion != null) {
-            existente.setDescripcion(nuevaDescripcion);
-        }
-        if (nuevaEdad != null) {
-            existente.setEdad(nuevaEdad);
-        }
-
-        // Si quieres registrar actividad:
-        // existente.setUltimoAcceso(LocalDateTime.now());  // si Perfil expone setter
-
-        return repo.save(existente);
-    }
-
-    /**
-     * Ejemplo de “actualización de acceso” (p. ej. al loguearse).
-     * Llama esto cuando el usuario inicia sesión para actualizar último acceso.
-     * Requiere que Perfil tenga setter para ultimoAcceso.
-     */
     public void registrarAcceso(String id) {
         Usuario existente = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
@@ -145,14 +113,6 @@ public class UsuarioService {
         // existente.setUltimoAcceso(LocalDateTime.now());
 
         repo.save(existente);
-    }
-
-    /* ==========================
-       Borrado
-       ========================== */
-    public void eliminarPorId(String id) {
-        // Puedes validar reglas (ej. no permitir borrar admins, etc.)
-        repo.deleteById(id);
     }
     public Usuario verDetalleUsuario(String id) {
         return repo.findById(id)

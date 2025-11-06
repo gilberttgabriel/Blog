@@ -1,0 +1,59 @@
+package com.software.spring.service;
+
+import com.software.spring.model.entity.Anuncio;
+import com.software.spring.repository.AnuncioRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class AnuncioService {
+    
+    private final AnuncioRepository anuncioRepository;
+    
+    public AnuncioService(AnuncioRepository anuncioRepository) {
+        this.anuncioRepository = anuncioRepository;
+    }
+    
+    /**
+     * Crea un nuevo anuncio (reemplaza al anterior como activo)
+     */
+    public Anuncio crearAnuncio(Anuncio anuncio) {
+        // Validaciones
+        if (anuncio.getTitulo() == null || anuncio.getTitulo().trim().isEmpty()) {
+            throw new IllegalArgumentException("El título es obligatorio");
+        }
+        
+        if (anuncio.getContenido() == null || anuncio.getContenido().trim().isEmpty()) {
+            throw new IllegalArgumentException("El contenido es obligatorio");
+        }
+        
+        // Establecer fecha de creación
+        anuncio.setFechaCreacion(LocalDateTime.now());
+        
+        return anuncioRepository.save(anuncio);
+    }
+    
+    /**
+     * Obtiene el anuncio activo más reciente
+     */
+    public Anuncio obtenerAnuncioActivo() {
+        return anuncioRepository.findLatestActive()
+                .orElse(null);
+    }
+    
+    /**
+     * Obtiene todos los anuncios
+     */
+    public List<Anuncio> obtenerTodosLosAnuncios() {
+        return anuncioRepository.findAll();
+    }
+    
+    /**
+     * Obtiene un anuncio por ID
+     */
+    public java.util.Optional<Anuncio> obtenerAnuncioPorId(Integer id) {
+        return anuncioRepository.findById(id);
+    }
+}

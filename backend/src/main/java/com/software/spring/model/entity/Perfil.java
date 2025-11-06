@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 public abstract class Perfil {
     protected String id;
     protected String username;
+    
+     
     protected String contraseña;
+    
     protected String nombre;
     protected String apellido;
     protected boolean activo;
@@ -25,6 +28,7 @@ public abstract class Perfil {
     public void setId(String id) { this.id = id; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
+    
     public String getContraseña() { return contraseña; }
     public void setContraseña(String contraseña) { this.contraseña = contraseña; }
     public String getNombre() { return nombre; }

@@ -15,7 +15,14 @@
       </div>
     </div>
 
-    <div class="content-area">
+    <!-- Banner de Anuncio -->
+    <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)">
+      <span class="anuncio-label">Anuncio</span>
+      <img v-if="anuncio.imagen" :src="anuncio.imagen" alt="Anuncio" class="anuncio-imagen" />
+    </div>
+
+    <!-- Contenido solo para usuarios normales (no admin) -->
+    <div v-if="!isAdmin" class="content-area">
       <div v-if="loading" class="loading">
         Cargando publicaciones...
       </div>
@@ -57,8 +64,10 @@ export default {
     return {
       publicaciones: [],
       usuarios: [],
+      anuncio: null,
       searchQuery: '',
-      loading: false
+      loading: false,
+      isAdmin: false
     }
   },
   computed: {
@@ -74,16 +83,25 @@ export default {
     }
   },
   mounted() {
+    this.checkUserType();
     this.cargarDatos();
   },
   methods: {
+    checkUserType() {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const userData = JSON.parse(user);
+        this.isAdmin = userData.username === 'admin';
+      }
+    },
     async cargarDatos() {
       this.loading = true;
       try {
-        // Cargar publicaciones y usuarios en paralelo
-        const [publicacionesRes, usuariosRes] = await Promise.all([
+        // Cargar publicaciones, usuarios y anuncio en paralelo
+        const [publicacionesRes, usuariosRes, anuncioRes] = await Promise.all([
           fetch('http://localhost:8080/api/publicacion'),
-          fetch('http://localhost:8080/api/usuarios')
+          fetch('http://localhost:8080/api/usuarios'),
+          fetch('http://localhost:8080/api/anuncio')
         ]);
         
         if (publicacionesRes.ok) {
@@ -92,6 +110,10 @@ export default {
         
         if (usuariosRes.ok) {
           this.usuarios = await usuariosRes.json();
+        }
+        
+        if (anuncioRes.ok) {
+          this.anuncio = await anuncioRes.json();
         }
       } catch (error) {
         console.error('Error cargando datos:', error);
@@ -108,6 +130,9 @@ export default {
     },
     irAPerfil(autorId) {
       this.$router.push(`/perfil/${autorId}`);
+    },
+    irAAnuncio(anuncioId) {
+      this.$router.push(`/anuncio/${anuncioId}`);
     },
     handleSearch() {
       // La búsqueda se hace automáticamente con el computed property
@@ -291,6 +316,46 @@ export default {
   font-family: 'FuenteHeader', sans-serif;
   font-size: 0.85rem;
   color: #999;
+}
+
+/* Estilos del banner de anuncio */
+.anuncio-banner {
+  position: relative;
+  width: 100%;
+  max-width: 970px;
+  height: 90px;
+  margin: 1.5rem auto 0 auto;
+  background-color: #a94442;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.anuncio-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.anuncio-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.anuncio-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
 }
 </style>
 

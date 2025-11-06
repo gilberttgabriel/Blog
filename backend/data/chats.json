@@ -1,0 +1,26 @@
+[ {
+  "id" : null,
+  "usuarioIds" : null,
+  "fechaCreacion" : null,
+  "ultimoMensaje" : null
+}, {
+  "id" : 525688795,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "7fe26e73-0106-48e2-9274-5793f397304e" ],
+  "fechaCreacion" : "2025-11-05T16:50:47.7712011",
+  "ultimoMensaje" : null
+}, {
+  "id" : 1030282536,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5" ],
+  "fechaCreacion" : "2025-11-05T16:56:00.2663656",
+  "ultimoMensaje" : null
+}, {
+  "id" : 630078096,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
+  "fechaCreacion" : "2025-11-05T17:04:56.5977496",
+  "ultimoMensaje" : null
+}, {
+  "id" : 923075388,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
+  "fechaCreacion" : "2025-11-05T18:08:07.638077",
+  "ultimoMensaje" : null
+} ]

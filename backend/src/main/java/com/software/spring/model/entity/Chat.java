@@ -1,45 +1,53 @@
 package com.software.spring.model.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-
-import java.time.LocalDateTime;
-
 public class Chat {
-    private List<Usuario> usuarios;
-    private List<Mensaje> mensajes;
-    private LocalDateTime fechaCreacion;
     private Integer id;
+    private List<String> usuarioIds;  // IDs de los usuarios participantes
+    private LocalDateTime fechaCreacion;
+    private String ultimoMensaje;
+    
+    // Constructor vacío para Jackson
+    public Chat() {}
 
-    public Chat(List<Usuario>usuarios,List<Mensaje> mensajes, LocalDateTime fechaCreacion, Integer id) {
-        this.usuarios = usuarios;
-        this.mensajes = mensajes;
-        this.fechaCreacion = fechaCreacion;
+    public Chat(Integer id, List<String> usuarioIds, LocalDateTime fechaCreacion, String ultimoMensaje) {
         this.id = id;
+        this.usuarioIds = usuarioIds;
+        this.fechaCreacion = fechaCreacion;
+        this.ultimoMensaje = ultimoMensaje;
     }
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-    public List<Mensaje> getMensajes() {
-        return mensajes;
-    }
-    public void setMensajes(List<Mensaje> mensajes) {
-        this.mensajes = mensajes;
-    }
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
     public Integer getId() {
         return id;
     }
+    
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public List<String> getUsuarioIds() {
+        return usuarioIds;
+    }
+    
+    public void setUsuarioIds(List<String> usuarioIds) {
+        this.usuarioIds = usuarioIds;
+    }
+    
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+    
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+    
+    public String getUltimoMensaje() {
+        return ultimoMensaje;
+    }
+    
+    public void setUltimoMensaje(String ultimoMensaje) {
+        this.ultimoMensaje = ultimoMensaje;
     }
 }

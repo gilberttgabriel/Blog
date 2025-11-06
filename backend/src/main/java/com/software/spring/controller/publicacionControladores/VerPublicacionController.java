@@ -19,16 +19,17 @@ public class VerPublicacionController {
         this.usuarioService = usuarioService;
     }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<Publicacion> verPublicacion(@PathVariable Integer id) {
-        Publicacion publicacion = publicacionService.verPublicacion(id);
-        return ResponseEntity.ok(publicacion);
-    }
     
     @GetMapping
     public ResponseEntity<List<Publicacion>> verTodasLasPublicaciones() {
         List<Publicacion> publicaciones = publicacionService.verTodasLasPublicaciones();
         return ResponseEntity.ok(publicaciones);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Publicacion> verPublicacion(@PathVariable Integer id) {
+        Publicacion publicacion = publicacionService.verPublicacion(id);
+        return ResponseEntity.ok(publicacion);
     }
     
     @GetMapping("/autor/{autorId}")
