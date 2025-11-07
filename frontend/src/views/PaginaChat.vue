@@ -105,7 +105,7 @@
             this.usuarios = await usuariosResponse.json();
           }
         } catch (error) {
-          console.error('Error cargando chat:', error);
+          // Error cargando chat
         } finally {
           this.loading = false;
         }
@@ -115,40 +115,30 @@
         if (!this.nuevoMensaje.trim()) return;
   
         try {
-          const payload = {
+          const mensaje = {
             contenido: this.nuevoMensaje,
             autorId: this.usuarioActualId,
             chatId: parseInt(this.chatId)
           };
-          
-          console.log('Enviando mensaje:', JSON.stringify(payload, null, 2));
-          console.log('autorId:', this.usuarioActualId, 'tipo:', typeof this.usuarioActualId);
-          console.log('chatId:', this.chatId, 'tipo:', typeof this.chatId);
           
           const response = await fetch('http://localhost:8080/api/mensaje/enviar', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(mensaje)
           });
-  
-          console.log('Response status:', response.status);
   
           if (response.ok) {
             const mensajeEnviado = await response.json();
-            console.log('Mensaje enviado:', mensajeEnviado);
             this.mensajes.push(mensajeEnviado);
             this.nuevoMensaje = '';
             this.$nextTick(() => {
               this.scrollToBottom();
             });
-          } else {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
           }
         } catch (error) {
-          console.error('Error enviando mensaje:', error);
+          // Error al enviar mensaje
         }
       },
   

@@ -117,7 +117,7 @@ export default {
           this.anuncio = await anuncioRes.json();
         }
       } catch (error) {
-        console.error('Error cargando datos:', error);
+        // Error cargando datos
       } finally {
         this.loading = false;
       }

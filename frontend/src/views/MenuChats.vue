@@ -121,7 +121,7 @@ export default {
           this.chats = await response.json();
         }
       } catch (error) {
-        console.error('Error cargando chats:', error);
+        // Error cargando chats
       } finally {
         this.loading = false;
       }
@@ -135,7 +135,7 @@ export default {
           this.usuarios = await response.json();
         }
       } catch (error) {
-        console.error('Error cargando usuarios:', error);
+        // Error cargando usuarios
       } finally {
         this.loadingUsuarios = false;
       }
@@ -173,7 +173,7 @@ export default {
           this.$router.push(`/chat/${chat.id}`);
         }
       } catch (error) {
-        console.error('Error creando chat:', error);
+        // Error creando chat
       }
     },
 

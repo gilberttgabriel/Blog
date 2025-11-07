@@ -57,12 +57,10 @@ export default {
         
         if (response.ok) {
           this.anuncio = await response.json();
-        } else {
-          console.error('Error cargando anuncio');
         }
         
       } catch (error) {
-        console.error('Error cargando anuncio:', error);
+        // Error cargando anuncio
       } finally {
         this.loading = false;
       }

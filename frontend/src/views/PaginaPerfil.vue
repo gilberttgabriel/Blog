@@ -97,7 +97,7 @@ export default {
         await this.cargarPublicaciones();
         
       } catch (error) {
-        console.error('Error al cargar perfil:', error);
+        // Error al cargar perfil
         // En caso de error y si es el perfil actual, usar datos de localStorage
         if (!this.$route.params.id) {
           const userData = localStorage.getItem('user');
@@ -120,7 +120,7 @@ export default {
           );
         }
       } catch (error) {
-        console.error('Error cargando publicaciones:', error);
+        // Error cargando publicaciones
       }
     },
     formatDate(dateString) {

@@ -1,8 +1,10 @@
 package com.software.spring.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Chat {
     private Integer id;
     private List<String> usuarioIds;  // IDs de los usuarios participantes

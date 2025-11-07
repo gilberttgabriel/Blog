@@ -144,7 +144,7 @@ export default {
         }
         
       } catch (error) {
-        console.error('Error cargando publicación:', error);
+        // Error cargando publicación
       } finally {
         this.loading = false;
       }
@@ -181,7 +181,7 @@ export default {
           this.nuevoComentario = '';
         }
       } catch (error) {
-        console.error('Error agregando comentario:', error);
+        // Error agregando comentario
       }
     },
     obtenerNombreAutorComentario(autorId) {
@@ -210,7 +210,7 @@ export default {
           alert('Error al eliminar el comentario');
         }
       } catch (error) {
-        console.error('Error eliminando comentario:', error);
+        // Error eliminando comentario
         alert('Error al eliminar el comentario');
       }
     },

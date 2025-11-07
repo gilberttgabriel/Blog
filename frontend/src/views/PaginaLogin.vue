@@ -85,7 +85,7 @@ export default {
         }
       } catch (error) {
         this.errorMessage = 'Error de conexión. Intenta nuevamente.';
-        console.error('Error:', error);
+        // Error en login
       }
     }
   }
