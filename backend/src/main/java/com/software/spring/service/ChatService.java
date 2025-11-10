@@ -46,4 +46,10 @@ public class ChatService {
     public List<Chat> verTodosLosChats() {
         return repo.findAll();
     }
+
+    public void actualizarUltimoMensaje(Integer chatId, String contenidoMensaje) {
+        Chat chat = verChat(chatId);
+        chat.setUltimoMensaje(contenidoMensaje);
+        repo.update(chat);
+    }
 }

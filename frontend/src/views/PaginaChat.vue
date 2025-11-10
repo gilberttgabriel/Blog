@@ -1,13 +1,13 @@
 <template>
     <div class="chat-page">
-      <div class="chat-header">
-        <button @click="volverAChats" class="btn-back">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <h2>{{ nombreOtroUsuario }}</h2>
-      </div>
+    <div class="chat-header">
+      <button @click="volverAChats" class="btn-back" data-tooltip="Volver a chats" data-tooltip-pos="bottom">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <h2>{{ nombreOtroUsuario }}</h2>
+    </div>
   
       <div class="messages-container" ref="messagesContainer">
         <div v-if="loading" class="loading">
@@ -39,7 +39,7 @@
           @keyup.enter="enviarMensaje"
           placeholder="Escribe un mensaje..."
         />
-        <button @click="enviarMensaje" class="btn-enviar" :disabled="!nuevoMensaje.trim()">
+        <button @click="enviarMensaje" class="btn-enviar" :disabled="!nuevoMensaje.trim()" :data-tooltip="nuevoMensaje.trim() ? 'Enviar mensaje' : 'Escribe un mensaje primero'">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -71,6 +71,16 @@
       }
     },
     mounted() {
+      // Verificar si es admin - los admins no pueden acceder a chats
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const userLocal = JSON.parse(userData);
+        if (userLocal.username === 'admin') {
+          this.$router.push('/inicio');
+          return;
+        }
+      }
+      
       this.chatId = parseInt(this.$route.params.chatId);
       this.cargarUsuarioActual();
       this.cargarChat();

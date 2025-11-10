@@ -42,6 +42,7 @@
               type="button" 
               @click="$refs.fileInput.click()" 
               class="btn-upload"
+              data-tooltip="Seleccionar imagen"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width: 1.5em; height: 1.5em;">
                 <path d="M7 10L12 15L17 10M12 15V3M5 20H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -63,8 +64,8 @@
         </div>
         
         <div class="button-group">
-          <button type="button" @click="handleCancel" class="btn-cancel">cancelar</button>
-          <button type="submit" class="btn-publish">publicar</button>
+          <button type="button" @click="handleCancel" class="btn-cancel" data-tooltip="Cancelar anuncio">cancelar</button>
+          <button type="submit" class="btn-publish" data-tooltip="Publicar anuncio">publicar</button>
         </div>
       </form>
     </div>
@@ -85,6 +86,19 @@ export default {
       imagenPreview: null,
       errorMessage: '',
       successMessage: ''
+    }
+  },
+  mounted() {
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      this.$router.push('/autenticacion');
+      return;
+    }
+    
+    const userLocal = JSON.parse(userData);
+    if (userLocal.username !== 'admin') {
+      this.$router.push('/inicio');
+      return;
     }
   },
   methods: {

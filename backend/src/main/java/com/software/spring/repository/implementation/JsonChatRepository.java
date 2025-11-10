@@ -104,5 +104,32 @@ public class JsonChatRepository implements ChatRepository {
             lock.writeLock().unlock();
         }
     }
+
+    @Override
+    public void update(Chat chat) {
+        lock.writeLock().lock();
+        try {
+            List<Chat> chats = readChatsUnsafe();
+            boolean found = false;
+            
+            for (int i = 0; i < chats.size(); i++) {
+                if (Objects.equals(chats.get(i).getId(), chat.getId())) {
+                    chats.set(i, chat);
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                throw new IllegalArgumentException("No se encontró el chat con ID: " + chat.getId());
+            }
+            
+            writeChatsUnsafe(chats);
+        } catch (IOException e) {
+            throw new RuntimeException("Error actualizando chat en " + dbPath, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
 }
 

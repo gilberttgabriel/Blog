@@ -35,8 +35,8 @@
         </div>
         
         <div class="button-group">
-          <button type="button" @click="handleCancel" class="btn-cancel">cancelar</button>
-          <button type="submit" class="btn-publish">publicar</button>
+          <button type="button" @click="handleCancel" class="btn-cancel" data-tooltip="Cancelar publicación">cancelar</button>
+          <button type="submit" class="btn-publish" data-tooltip="Publicar">publicar</button>
         </div>
       </form>
     </div>
@@ -60,6 +60,13 @@ export default {
   mounted() {
     // Obtener el usuario del localStorage
     const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Verificar si es admin - los admins no pueden crear publicaciones
+    if (user && user.username === 'admin') {
+      this.$router.push('/inicio');
+      return;
+    }
+    
     if (user && user.id) {
       this.postData.autorId = user.id;
     } else {

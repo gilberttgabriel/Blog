@@ -11,9 +11,11 @@ import java.util.UUID;
 public class MensajeService {
 
     private final MensajeRepository repo;
+    private final ChatService chatService;
     
-    public MensajeService(MensajeRepository repo) {
+    public MensajeService(MensajeRepository repo, ChatService chatService) {
         this.repo = repo;
+        this.chatService = chatService;
     }
 
     public Mensaje enviarMensaje(Mensaje mensaje) {
@@ -35,6 +37,10 @@ public class MensajeService {
         );
         
         repo.save(nuevoMensaje);
+        
+        // Actualizar el último mensaje del chat
+        chatService.actualizarUltimoMensaje(mensaje.getChatId(), mensaje.getContenido());
+        
         return nuevoMensaje;
     }
 

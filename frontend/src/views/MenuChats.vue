@@ -2,7 +2,7 @@
   <div class="menu-chats-page">
     <div class="header">
       <h1>chats</h1>
-      <button @click="mostrarModalUsuarios" class="btn-nuevo-chat">
+      <button @click="mostrarModalUsuarios" class="btn-nuevo-chat" data-tooltip="Nuevo chat" data-tooltip-pos="bottom">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -15,7 +15,7 @@
 
     <div v-else-if="chats.length === 0" class="empty-state">
       <p>No tienes conversaciones aún</p>
-      <button @click="mostrarModalUsuarios" class="btn-create">Iniciar una conversación</button>
+      <button @click="mostrarModalUsuarios" class="btn-create" data-tooltip="Crear tu primer chat">Iniciar una conversación</button>
     </div>
 
     <div v-else class="chats-list">
@@ -24,10 +24,11 @@
         :key="chat.id"
         class="chat-card"
         @click="irAChat(chat.id)"
+        data-tooltip="Ver chat"
       >
         <div class="chat-info">
           <h3>{{ obtenerNombreOtroUsuario(chat) }}</h3>
-          <p class="ultimo-mensaje">{{ chat.ultimoMensaje || 'Sin mensajes aún' }}</p>
+          <p class="ultimo-mensaje">{{ chat.ultimoMensaje || 'No hay mensajes aún' }}</p>
         </div>
         <div class="chat-fecha">
           <span>{{ formatDate(chat.fechaCreacion) }}</span>
@@ -39,7 +40,7 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h2>nueva conversación</h2>
-          <button @click="cerrarModal" class="btn-close">×</button>
+          <button @click="cerrarModal" class="btn-close" data-tooltip="Cerrar" data-tooltip-pos="left">×</button>
         </div>
         
         <div class="search-usuario">
@@ -100,6 +101,16 @@ export default {
     }
   },
   async mounted() {
+      // Verificar si es admin - los admins no pueden acceder a chats
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const userLocal = JSON.parse(userData);
+        if (userLocal.username === 'admin') {
+          this.$router.push('/inicio');
+          return;
+        }
+      }
+      
       await this.cargarUsuarios();
       this.cargarUsuarioActual();
       await this.cargarChats();
@@ -363,6 +374,14 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal-header h2 {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
 }
 .btn-close {
   background: none;

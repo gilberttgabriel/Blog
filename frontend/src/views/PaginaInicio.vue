@@ -16,7 +16,7 @@
     </div> -->
 
     <!-- Banner de Anuncio -->
-    <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)">
+    <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)" data-tooltip="Ver anuncio" data-tooltip-pos="bottom">
       <span class="anuncio-label">Anuncio</span>
       <img v-if="anuncio.imagen" :src="anuncio.imagen" alt="Anuncio" class="anuncio-imagen" />
     </div>
@@ -38,6 +38,7 @@
           :key="publicacion.id" 
           class="publicacion-card"
           @click="irAPublicacion(publicacion.id)"
+          data-tooltip="Ver publicación"
         >
           <h2>{{ publicacion.titulo }}</h2>
           <p class="contenido">{{ publicacion.contenido }}</p>
@@ -45,6 +46,7 @@
             <span 
               class="autor" 
               @click.stop="irAPerfil(publicacion.autorId)"
+              data-tooltip="Ver perfil"
             >
               {{ obtenerNombreAutor(publicacion.autorId) }}
             </span>
@@ -325,18 +327,25 @@ export default {
   width: 100%;
   max-width: 970px;
   height: 90px;
-  margin: 1.5rem auto 0 auto;
+  margin: 1.5rem auto 0.5rem auto;
   background-color: #a94442;
   border-radius: 0;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1;
 }
 
 .anuncio-banner:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Asegurar que el tooltip del anuncio se vea */
+.anuncio-banner[data-tooltip]:before,
+.anuncio-banner[data-tooltip]:after {
+  z-index: 10001 !important;
 }
 
 .anuncio-label {

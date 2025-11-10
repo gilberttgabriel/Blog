@@ -38,6 +38,29 @@ const router = createRouter({
     routes
 })
 
+// Función helper para verificar si el usuario es admin
+function isAdmin() {
+    const user = localStorage.getItem('user');
+    if (user) {
+        const userData = JSON.parse(user);
+        return userData.username === 'admin';
+    }
+    return false;
+}
+
+// Rutas que el admin NO puede acceder
+const adminRestrictedRoutes = [
+    '/perfil',
+    '/chats',
+    '/crear',
+    '/publicacion'
+];
+
+// Rutas que SOLO el admin puede acceder
+const adminOnlyRoutes = [
+    '/crear-anuncio'
+];
+
 // Comprobacion de si estas logeado o no
 router.beforeEach((to, from, next) => {
     const user = localStorage.getItem('user');
@@ -50,7 +73,33 @@ router.beforeEach((to, from, next) => {
     // Si hay usuario y trata de ir a login/register, redirigir a home
     else if (user && isPublicRoute) {
         next('/inicio');
-    } 
+    }
+    
+    else if (!isAdmin()) {
+        const isAdminOnlyRoute = adminOnlyRoutes.some(route => 
+            to.path === route || to.path.startsWith(route + '/')
+        );
+        
+        if (isAdminOnlyRoute) {
+             
+            next('/inicio');
+        } else {
+            next();
+        }
+    }
+    // Si es admin y trata de acceder a rutas restringidas, bloquear
+    else if (isAdmin()) {
+        const isRestrictedRoute = adminRestrictedRoutes.some(route => 
+            to.path === route || to.path.startsWith(route + '/')
+        );
+        
+        if (isRestrictedRoute) {
+            // Admin no puede acceder a estas rutas, redirigir a inicio
+            next('/inicio');
+        } else {
+            next();
+        }
+    }
     // En cualquier otro caso, permitir la navegación
     else {
         next();

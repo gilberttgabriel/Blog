@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public interface ChatRepository {
     void save(Chat chat);
+    void update(Chat chat);
     Optional<Chat> findById(Integer id);
     List<Chat> findAll();
     List<Chat> findByUsuarioId(String usuarioId);
