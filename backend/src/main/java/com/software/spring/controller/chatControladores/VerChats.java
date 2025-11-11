@@ -24,8 +24,13 @@ public class VerChats {
     
     // GET /api/chat/{chatId} - Ver un chat específico con sus mensajes
     @GetMapping("/chat/{chatId}")
-    public ResponseEntity<Map<String, Object>> verChat(@PathVariable Integer chatId) {
+    public ResponseEntity<Map<String, Object>> verChat(@PathVariable Integer chatId, @RequestParam(required = true) String usuarioId) {
         Chat chat = chatService.verChat(chatId);
+        if (!chat.getUsuarioIds().contains(usuarioId)) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "No tienes permiso para acceder a este chat");
+            return ResponseEntity.status(403).body(errorResponse);
+        }
         List<Mensaje> mensajes = mensajeService.verMensajesPorChatId(chatId);
 
         Map<String, Object> response = new HashMap<>();

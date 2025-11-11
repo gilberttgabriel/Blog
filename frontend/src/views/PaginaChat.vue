@@ -98,10 +98,15 @@
         this.loading = true;
         try {
           const [chatResponse, usuariosResponse] = await Promise.all([
-            fetch(`http://localhost:8080/api/chat/${this.chatId}`),
+            fetch(`http://localhost:8080/api/chat/${this.chatId}?usuarioId=${this.usuarioActualId}`),
             fetch('http://localhost:8080/api/usuarios')
           ]);
   
+          if(chatResponse.status === 403) {
+            this.$router.push('/chats');
+            return;
+          }
+          
           if (chatResponse.ok) {
             const data = await chatResponse.json();
             this.chat = data.chat;
