@@ -1,0 +1,12 @@
+[ {
+  "id" : "a1b2c3d4-5678-90ab-cdef-123456789000",
+  "username" : "admin",
+  "contraseña" : "admin123",
+  "nombre" : "Administrador",
+  "apellido" : "Principal",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-04T12:00:00",
+  "numeroContrato" : 1001,
+  "fechaRegistro" : "2025-01-01T00:00:00"
+} ]
+

@@ -1,7 +1,7 @@
 [ {
   "id" : "68e678d2-9153-4751-bd1c-23a279d6ade0",
   "username" : "gilbertmatatan",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "gilberto",
   "apellido" : "moncada",
   "activo" : true,
@@ -11,7 +11,7 @@
 }, {
   "id" : "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5",
   "username" : "hellennn",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "hellen",
   "apellido" : "rugero",
   "activo" : true,
@@ -21,7 +21,7 @@
 }, {
   "id" : "7fe26e73-0106-48e2-9274-5793f397304e",
   "username" : "maria",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "maria",
   "apellido" : "jol",
   "activo" : true,
@@ -29,19 +29,9 @@
   "descripcion" : "soy maria",
   "edad" : 21
 }, {
-  "id" : "7fe26e73-0106-48e2-9274-5793f397304e",
-  "username" : "maria",
-  "contraseña" : "12345",
-  "nombre" : "maria",
-  "apellido" : "jol",
-  "activo" : true,
-  "ultimoAcceso" : "2025-10-31T12:02:40.693017",
-  "descripcion" : "soy maria",
-  "edad" : 21
-}, {
   "id" : "ed3e0a14-77d9-436a-a3da-cce804bb68b0",
   "username" : "999-*/",
-  "contraseña" : "daniel",
+  "contraseña" : "123456",
   "nombre" : "daniel",
   "apellido" : "v",
   "activo" : true,
@@ -51,11 +41,11 @@
 }, {
   "id" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
   "username" : "val",
-  "contraseña" : "123",
+  "contraseña" : "123456",
   "nombre" : "valeria",
   "apellido" : "leon",
   "activo" : true,
   "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
   "descripcion" : "bien",
   "edad" : 21
-} ]
+}]

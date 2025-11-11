@@ -13,6 +13,7 @@
           <span 
             class="autor" 
             @click="irAPerfil(publicacion.autorId)"
+            data-tooltip="Ver perfil"
           >
             {{ nombreAutor }}
           </span>
@@ -40,6 +41,7 @@
             @click="agregarComentario" 
             class="btn-comentar"
             :disabled="!nuevoComentario.trim()"
+            :data-tooltip="nuevoComentario.trim() ? 'Publicar comentario' : 'Escribe un comentario primero'"
           >
             Comentar
           </button>
@@ -61,6 +63,7 @@
                 <span 
                   class="comentario-autor"
                   @click="irAPerfil(comentario.autor)"
+                  data-tooltip="Ver perfil"
                 >
                   {{ obtenerNombreAutorComentario(comentario.autor) }}
                 </span>
@@ -108,6 +111,16 @@ export default {
     }
   },
   mounted() {
+    // Verificar si es admin - los admins no pueden ver publicaciones
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const userLocal = JSON.parse(userData);
+      if (userLocal.username === 'admin') {
+        this.$router.push('/inicio');
+        return;
+      }
+    }
+    
     this.cargarPublicacion();
   },
   methods: {
@@ -144,7 +157,7 @@ export default {
         }
         
       } catch (error) {
-        console.error('Error cargando publicación:', error);
+        // Error cargando publicación
       } finally {
         this.loading = false;
       }
@@ -181,7 +194,7 @@ export default {
           this.nuevoComentario = '';
         }
       } catch (error) {
-        console.error('Error agregando comentario:', error);
+        // Error agregando comentario
       }
     },
     obtenerNombreAutorComentario(autorId) {
@@ -210,7 +223,7 @@ export default {
           alert('Error al eliminar el comentario');
         }
       } catch (error) {
-        console.error('Error eliminando comentario:', error);
+        // Error eliminando comentario
         alert('Error al eliminar el comentario');
       }
     },

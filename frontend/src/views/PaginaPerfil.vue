@@ -9,8 +9,8 @@
           </svg>
         </div>
         <div class="user-details">
-          <h1>{{ usuario.nombre }} {{ usuario.apellido }}</h1>
-          <p class="username">@{{ usuario.username }}</p>
+          <h1 data-tooltip="Ver perfil completo">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+          <p class="username" data-tooltip="Username">@{{ usuario.username }}</p>
           <p class="descripcion" v-if="usuario.descripcion">{{ usuario.descripcion }}</p>
         </div>
       </div>
@@ -32,6 +32,7 @@
           :key="publicacion.id" 
           class="publicacion-card"
           @click="irAPublicacion(publicacion.id)"
+          data-tooltip="Ver publicación"
         >
           <h2>{{ publicacion.titulo }}</h2>
           <p class="contenido">{{ publicacion.contenido }}</p>
@@ -56,12 +57,32 @@ export default {
   },
   watch: {
     '$route.params.id'() {
+      // Verificar si es admin - los admins no pueden ver perfiles
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const userLocal = JSON.parse(userData);
+        if (userLocal.username === 'admin') {
+          this.$router.push('/inicio');
+          return;
+        }
+      }
+      
       // Recargar perfil cuando cambie el ID en la URL
       this.loading = true;
       this.cargarPerfil();
     }
   },
   mounted() {
+    // Verificar si es admin - los admins no pueden ver perfiles
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const userLocal = JSON.parse(userData);
+      if (userLocal.username === 'admin') {
+        this.$router.push('/inicio');
+        return;
+      }
+    }
+    
     this.cargarPerfil();
   },
   methods: {
@@ -97,7 +118,7 @@ export default {
         await this.cargarPublicaciones();
         
       } catch (error) {
-        console.error('Error al cargar perfil:', error);
+        // Error al cargar perfil
         // En caso de error y si es el perfil actual, usar datos de localStorage
         if (!this.$route.params.id) {
           const userData = localStorage.getItem('user');
@@ -120,7 +141,7 @@ export default {
           );
         }
       } catch (error) {
-        console.error('Error cargando publicaciones:', error);
+        // Error cargando publicaciones
       }
     },
     formatDate(dateString) {
