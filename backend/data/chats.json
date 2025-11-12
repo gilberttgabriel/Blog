@@ -33,4 +33,9 @@
   "usuarioIds" : [ "68e678d2-9153-4751-bd1c-23a279d6ade0", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
   "fechaCreacion" : "2025-11-07T12:36:52.1555801",
   "ultimoMensaje" : "sdkjhfd"
+}, {
+  "id" : 282067115,
+  "usuarioIds" : [ "bc06d9b7-fef8-4c99-a6e7-214ae02c034c", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
+  "fechaCreacion" : "2025-11-10T21:24:42.867138483",
+  "ultimoMensaje" : null
 } ]
