@@ -15,10 +15,6 @@ public class CrearAnuncio {
         this.anuncioService = anuncioService;
     }
     
-    /**
-     * Endpoint para crear un nuevo anuncio
-     * POST /api/anuncio/crear
-     */
     @PostMapping("/crear")
     public ResponseEntity<?> crearAnuncio(@RequestBody Anuncio anuncio) {
         try {

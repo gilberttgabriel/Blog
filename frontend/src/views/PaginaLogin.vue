@@ -80,11 +80,12 @@ export default {
           // Redirigir a la página principal
           this.$router.push('/inicio');
         } else {
-          const error = await response.json();
-          this.errorMessage = error.error || 'Error al iniciar sesión';
+          // El backend devuelve texto plano en caso de error
+          const errorText = await response.text();
+          this.errorMessage = errorText.replace('Error de autenticación: ', '') || 'Error al iniciar sesión';
         }
       } catch (error) {
-        this.errorMessage = 'Error de conexión. Intenta nuevamente.';
+        this.errorMessage = 'Error de conexión. Inténtalo de nuevo.';
         // Error en login
       }
     }

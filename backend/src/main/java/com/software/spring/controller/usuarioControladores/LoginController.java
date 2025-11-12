@@ -1,8 +1,8 @@
 package com.software.spring.controller.usuarioControladores;
 
-import com.software.spring.model.LoginRequest;
 import com.software.spring.model.entity.Usuario;
 import com.software.spring.model.entity.Administrador;
+import com.software.spring.model.entity.LoginRequest;
 import com.software.spring.service.UsuarioService;
 import com.software.spring.service.AdministradorService;
 import org.springframework.http.ResponseEntity;
