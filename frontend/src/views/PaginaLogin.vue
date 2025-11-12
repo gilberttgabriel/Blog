@@ -38,11 +38,11 @@
           {{ errorMessage }}
         </div>
         
-        <button type="submit" class="btn-primary">Ingresar</button>
+        <button type="submit" class="btn-primary" data-tooltip="Iniciar sesión con tus credenciales">Ingresar</button>
       </form>
       
       <div class="auth-footer">
-        <p>¿No tienes cuenta? <router-link to="/registro">Regístrate aquí</router-link></p>
+        <p>¿No tienes cuenta? <router-link to="/registro" data-tooltip="Crear una nueva cuenta de usuario">Regístrate aquí</router-link></p>
       </div>
     </div>
   </div>
