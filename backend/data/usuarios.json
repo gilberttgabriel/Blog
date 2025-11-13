@@ -78,4 +78,14 @@
   "ultimoAcceso" : "2025-11-12T18:44:55.6702612",
   "descripcion" : "yea",
   "edad" : 16
+}, {
+  "id" : "b22cd593-8da5-407e-b096-40ab98770235",
+  "username" : "ajcabrera.23",
+  "contraseña" : "pepito123",
+  "nombre" : "Antonio ",
+  "apellido" : "Cabrera",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-13T01:30:15.3095234",
+  "descripcion" : "Mido 1,82m y me gusta el baloncesto",
+  "edad" : 20
 } ]
