@@ -54,7 +54,7 @@
             id="edad" 
             v-model.number="registerData.edad" 
             placeholder="Tu edad"
-            min="13"
+            min="18"
             max="120"
             required
           />

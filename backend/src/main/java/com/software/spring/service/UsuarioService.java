@@ -31,7 +31,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("username, contraseña, nombre y apellido son obligatorios");
         }
 
-        if (usuario.getEdad() < 0 || usuario.getEdad()  > 120) {
+        if (usuario.getEdad() < 18 || usuario.getEdad()  > 120) {
             throw new IllegalArgumentException("edad inválida");
         }
 
