@@ -78,14 +78,4 @@
   "ultimoAcceso" : "2025-11-12T18:44:55.6702612",
   "descripcion" : "yea",
   "edad" : 16
-}, {
-  "id" : "2fea91ec-50b6-4d4e-87a1-0b2cb5c2abd6",
-  "username" : "movalles",
-  "contraseña" : "123456",
-  "nombre" : "maria",
-  "apellido" : "perez",
-  "activo" : true,
-  "ultimoAcceso" : "2025-11-13T10:56:01.8336598",
-  "descripcion" : "soy profesora",
-  "edad" : 20
 } ]
