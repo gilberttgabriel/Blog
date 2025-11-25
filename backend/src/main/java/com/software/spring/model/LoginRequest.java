@@ -1,4 +1,4 @@
-package com.software.spring.model.entity;
+package com.software.spring.model;
 
 public class LoginRequest {
     private String username;

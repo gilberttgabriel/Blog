@@ -1,4 +1,4 @@
-package com.software.spring.model.entity;
+package com.software.spring.model;
 import java.time.LocalDateTime;
 public class Administrador extends Perfil {
     private Integer numeroContrato;

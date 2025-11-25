@@ -1,6 +1,6 @@
-package com.software.spring.controller.publicacionControladores;
+package com.software.spring.controller;
 
-import com.software.spring.model.entity.Publicacion;
+import com.software.spring.model.Publicacion;
 import com.software.spring.service.PublicacionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

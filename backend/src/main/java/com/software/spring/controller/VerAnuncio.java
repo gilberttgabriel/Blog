@@ -1,6 +1,6 @@
-package com.software.spring.controller.AnuncioControladores;
+package com.software.spring.controller;
 
-import com.software.spring.model.entity.Anuncio;
+import com.software.spring.model.Anuncio;
 import com.software.spring.service.AnuncioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

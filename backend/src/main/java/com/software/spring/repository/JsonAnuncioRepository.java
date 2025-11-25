@@ -1,11 +1,11 @@
-package com.software.spring.repository.implementation;
+package com.software.spring.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.software.spring.model.entity.Anuncio;
-import com.software.spring.repository.AnuncioRepository;
+import com.software.spring.model.Anuncio;
+
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;

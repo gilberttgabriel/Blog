@@ -1,4 +1,4 @@
-package com.software.spring.controller.comentarioControladores;
+package com.software.spring.controller;
 
 import com.software.spring.service.ComentarioService;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.software.spring.controller.chatControladores;
+package com.software.spring.controller;
 
-import com.software.spring.model.entity.Mensaje;
+import com.software.spring.model.Mensaje;
 import com.software.spring.service.MensajeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

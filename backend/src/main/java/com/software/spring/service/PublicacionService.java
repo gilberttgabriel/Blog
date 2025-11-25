@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Publicacion;
+import com.software.spring.model.Publicacion;
 import com.software.spring.repository.PublicacionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

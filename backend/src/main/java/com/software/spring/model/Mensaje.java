@@ -1,4 +1,4 @@
-package com.software.spring.model.entity;
+package com.software.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;

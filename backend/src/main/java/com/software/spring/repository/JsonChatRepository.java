@@ -1,11 +1,11 @@
-package com.software.spring.repository.implementation;
+package com.software.spring.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.software.spring.model.entity.Chat;
-import com.software.spring.repository.ChatRepository;
+import com.software.spring.model.Chat;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 

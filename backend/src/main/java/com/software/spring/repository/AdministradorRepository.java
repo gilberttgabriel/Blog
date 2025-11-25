@@ -1,8 +1,8 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Administrador;
-
 import java.util.Optional;
+
+import com.software.spring.model.Administrador;
 
 public interface AdministradorRepository {
     Optional<Administrador> findByUsername(String username);

@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Administrador;
+import com.software.spring.model.Administrador;
 import com.software.spring.repository.AdministradorRepository;
 import org.springframework.stereotype.Service;
 

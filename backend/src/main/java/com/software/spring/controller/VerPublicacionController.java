@@ -1,6 +1,6 @@
-package com.software.spring.controller.publicacionControladores;
+package com.software.spring.controller;
 
-import com.software.spring.model.entity.Publicacion;
+import com.software.spring.model.Publicacion;
 import com.software.spring.service.PublicacionService;
 import com.software.spring.service.UsuarioService;
 import org.springframework.http.ResponseEntity;

@@ -1,10 +1,10 @@
-package com.software.spring.repository.implementation;
+package com.software.spring.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.software.spring.model.entity.Comentario;
-import com.software.spring.repository.ComentarioRepository;
+import com.software.spring.model.Comentario;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 

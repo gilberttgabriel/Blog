@@ -1,6 +1,6 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Mensaje;
+import com.software.spring.model.Mensaje;
 import java.util.List;
 import java.util.Optional;
 

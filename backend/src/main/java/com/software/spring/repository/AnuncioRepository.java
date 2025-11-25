@@ -1,9 +1,9 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Anuncio;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.software.spring.model.Anuncio;
 
 public interface AnuncioRepository {
     List<Anuncio> findAll();

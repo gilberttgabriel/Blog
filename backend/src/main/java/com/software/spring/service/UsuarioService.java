@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Usuario;
+import com.software.spring.model.Usuario;
 import com.software.spring.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
