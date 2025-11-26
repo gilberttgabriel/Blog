@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Usuario;
+import com.software.spring.model.Usuario;
 import com.software.spring.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,7 +31,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("username, contraseña, nombre y apellido son obligatorios");
         }
 
-        if (usuario.getEdad() < 0 || usuario.getEdad()  > 120) {
+        if (usuario.getEdad() < 18 || usuario.getEdad()  > 120) {
             throw new IllegalArgumentException("edad inválida");
         }
 

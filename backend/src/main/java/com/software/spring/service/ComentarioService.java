@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Comentario;
+import com.software.spring.model.Comentario;
 import com.software.spring.repository.ComentarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

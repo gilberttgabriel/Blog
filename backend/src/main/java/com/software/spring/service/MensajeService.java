@@ -1,5 +1,5 @@
 package com.software.spring.service;
-import com.software.spring.model.entity.Mensaje;
+import com.software.spring.model.Mensaje;
 import com.software.spring.repository.MensajeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

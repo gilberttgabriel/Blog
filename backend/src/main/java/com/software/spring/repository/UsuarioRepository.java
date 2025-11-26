@@ -1,6 +1,6 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Usuario;
+import com.software.spring.model.Usuario;
 
 import java.util.List;
 import java.util.Optional;

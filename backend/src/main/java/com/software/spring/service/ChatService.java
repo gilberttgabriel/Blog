@@ -1,5 +1,5 @@
 package com.software.spring.service;
-import com.software.spring.model.entity.Chat;
+import com.software.spring.model.Chat;
 import com.software.spring.repository.ChatRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

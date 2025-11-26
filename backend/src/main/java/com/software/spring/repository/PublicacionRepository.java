@@ -1,6 +1,6 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Publicacion;
+import com.software.spring.model.Publicacion;
 import java.util.Optional;
 import java.util.List;
 

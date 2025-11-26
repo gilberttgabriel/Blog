@@ -54,7 +54,7 @@
             id="edad" 
             v-model.number="registerData.edad" 
             placeholder="Tu edad"
-            min="13"
+            min="18"
             max="120"
             required
           />
@@ -90,11 +90,11 @@
           {{ successMessage }}
         </div>
         
-        <button type="submit" class="btn-primary">Registrarse</button>
+        <button type="submit" class="btn-primary" data-tooltip="Crear tu cuenta nueva">Registrarse</button>
       </form>
       
       <div class="auth-footer">
-        <p>¿Ya tienes cuenta? <router-link to="/autenticacion">Inicia sesión aquí</router-link></p>
+        <p>¿Ya tienes cuenta? <router-link to="/autenticacion" data-tooltip="Ir a la página de inicio de sesión">Inicia sesión aquí</router-link></p>
       </div>
     </div>
   </div>
@@ -144,11 +144,12 @@ export default {
             this.$router.push('/inicio');
           }, 1500);
         } else {
-          const error = await response.json();
-          this.errorMessage = error.error || 'Error al registrarse';
+          // El backend devuelve texto plano en caso de error
+          const errorText = await response.text();
+          this.errorMessage = errorText.replace('Error en el registro: ', '') || 'Error en el registro';
         }
       } catch (error) {
-        this.errorMessage = 'Error de conexión. Intenta nuevamente.';
+        this.errorMessage = 'Error de conexión. Inténtalo de nuevo.';
         // Error en registro
       }
     }

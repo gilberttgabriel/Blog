@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Anuncio;
+import com.software.spring.model.Anuncio;
 import com.software.spring.repository.AnuncioRepository;
 import org.springframework.stereotype.Service;
 
