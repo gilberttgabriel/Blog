@@ -58,4 +58,24 @@
   "ultimoAcceso" : "2025-11-10T21:24:32.473504754",
   "descripcion" : "me gusta el cine",
   "edad" : 22
+}, {
+  "id" : "175506e2-017c-429a-8703-bb1d5a873666",
+  "username" : "antonio",
+  "contraseña" : "Bob.2003",
+  "nombre" : "goat",
+  "apellido" : "messi",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-13T09:33:03.847866061",
+  "descripcion" : "kajbd",
+  "edad" : 30
+}, {
+  "id" : "d83993e4-4b89-41cc-b65c-183692de906b",
+  "username" : "hermanitaaa",
+  "contraseña" : "1234",
+  "nombre" : "violetita",
+  "apellido" : "semprumcito",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-20T15:44:36.43050144",
+  "descripcion" : "humberto con muletas",
+  "edad" : 99
 } ]

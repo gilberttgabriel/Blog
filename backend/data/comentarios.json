@@ -40,4 +40,10 @@
   "autor" : "68e678d2-9153-4751-bd1c-23a279d6ade0",
   "publicacionId" : 337046199,
   "fechaCreacion" : null
+}, {
+  "id" : 1372835207,
+  "contenido" : "Hola, comentario para la interfaz",
+  "autor" : "bc06d9b7-fef8-4c99-a6e7-214ae02c034c",
+  "publicacionId" : 974435688,
+  "fechaCreacion" : null
 } ]
