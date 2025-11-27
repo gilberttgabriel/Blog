@@ -10,12 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comentariospublicacion")
-public class ComentarPublicacion {
+public class ComentarPublicacionController {
 
     private final ComentarioService comentarioService;
     private final PublicacionService publicacionService;
     
-    public ComentarPublicacion(ComentarioService comentarioService, PublicacionService publicacionService) {
+    public ComentarPublicacionController(ComentarioService comentarioService, PublicacionService publicacionService) {
         this.comentarioService = comentarioService;
         this.publicacionService = publicacionService;
     }

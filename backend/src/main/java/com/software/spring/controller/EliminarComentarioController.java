@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/comentariospublicacion")
-public class EliminarComentario {
+public class EliminarComentarioController {
 
     private final ComentarioService comentarioService;
     
-    public EliminarComentario(ComentarioService comentarioService) {
+    public EliminarComentarioController(ComentarioService comentarioService) {
         this.comentarioService = comentarioService;
     }
     
