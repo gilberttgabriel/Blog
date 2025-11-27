@@ -16,8 +16,8 @@ public class VerPerfilController {
     }
     
     @GetMapping
-    public ResponseEntity<List<Usuario>> obtenerTodosLosUsuarios() {
-        List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        List<Usuario> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.ok(usuarios);
     }
     

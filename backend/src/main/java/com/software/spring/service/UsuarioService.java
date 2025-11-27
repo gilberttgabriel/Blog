@@ -70,10 +70,6 @@ public class UsuarioService {
         return repo.findAll();
     }
     
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        return repo.findAll();
-    }
-
     public Optional<Usuario> obtenerPorId(String id) {
         if (!StringUtils.hasText(id)) return Optional.empty();
         return repo.findById(id);
@@ -94,25 +90,14 @@ public class UsuarioService {
 
         Usuario usuario = repo.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Credenciales inválidas"));
-
-        // Verificar contraseña (en producción deberías usar BCrypt)
+ 
         if (!usuario.getContraseña().equals(contraseña)) {
             throw new IllegalArgumentException("Credenciales inválidas");
         }
-
-        // Actualizar último acceso
+ 
         usuario.setUltimoAcceso(LocalDateTime.now());
 
         return usuario;
-    }
-    public void registrarAcceso(String id) {
-        Usuario existente = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
-
-        // Si Perfil tiene setter:
-        // existente.setUltimoAcceso(LocalDateTime.now());
-
-        repo.save(existente);
     }
     public Usuario verDetalleUsuario(String id) {
         return repo.findById(id)
