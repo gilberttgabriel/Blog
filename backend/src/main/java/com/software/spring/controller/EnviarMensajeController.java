@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/mensaje/enviar")
-public class EnviarMensaje {
+public class EnviarMensajeController {
     private final MensajeService mensajeService;
     
-    public EnviarMensaje(MensajeService mensajeService) {
+    public EnviarMensajeController(MensajeService mensajeService) {
         this.mensajeService = mensajeService;
     }
     

@@ -9,10 +9,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chat/crear")
-public class CrearChat {
+public class CrearChatController {
     private final ChatService chatService;
     
-    public CrearChat(ChatService chatService) {
+    public CrearChatController(ChatService chatService) {
         this.chatService = chatService;
     }
     

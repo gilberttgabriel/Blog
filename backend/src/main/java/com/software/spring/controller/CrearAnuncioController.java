@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/anuncio")
-public class CrearAnuncio {
+public class CrearAnuncioController {
     
     private final AnuncioService anuncioService;
     
-    public CrearAnuncio(AnuncioService anuncioService) {
+    public CrearAnuncioController(AnuncioService anuncioService) {
         this.anuncioService = anuncioService;
     }
     

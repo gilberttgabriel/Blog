@@ -13,11 +13,11 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api")
-public class VerChats {
+public class VerChatsController {
     private final ChatService chatService;
     private final MensajeService mensajeService;
     
-    public VerChats(ChatService chatService, MensajeService mensajeService) {
+    public VerChatsController(ChatService chatService, MensajeService mensajeService) {
         this.chatService = chatService;
         this.mensajeService = mensajeService;
     }
