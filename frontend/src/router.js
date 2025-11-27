@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MenuChats from '@/views/MenuChats.vue'
 import PaginaChat from '@/views/PaginaChat.vue'
-import PaginaPerfil from '@/views/PaginaPerfil.vue'
-import PaginaPublicacion from '@/views/PaginaPublicacion.vue'
-import PaginaAnuncio from '@/views/PaginaAnuncio.vue'
+import PaginaPerfil from '@/views/VerPerfil.vue'
+import PaginaPublicacion from '@/views/VerPublicacion.vue'
+import PaginaAnuncio from '@/views/VerAnuncio.vue'
 import PaginaInicio from "@/views/PaginaInicio.vue";
-import PaginaLogin from "@/views/PaginaLogin.vue";
-import PaginaRegistro from "@/views/PaginaRegistro.vue";
+import PaginaLogin from "@/views/Login.vue";
+import PaginaRegistro from "@/views/CrearPerfil.vue";
 import CrearPublicacion from "@/views/CrearPublicacion.vue";
 import CrearAnuncio from "@/views/CrearAnuncio.vue";
 
