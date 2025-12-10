@@ -1,7 +1,7 @@
 [ {
   "id" : "68e678d2-9153-4751-bd1c-23a279d6ade0",
   "username" : "gilbertmatatan",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "gilberto",
   "apellido" : "moncada",
   "activo" : true,
@@ -11,7 +11,7 @@
 }, {
   "id" : "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5",
   "username" : "hellennn",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "hellen",
   "apellido" : "rugero",
   "activo" : true,
@@ -21,7 +21,7 @@
 }, {
   "id" : "7fe26e73-0106-48e2-9274-5793f397304e",
   "username" : "maria",
-  "contraseña" : "12345",
+  "contraseña" : "123456",
   "nombre" : "maria",
   "apellido" : "jol",
   "activo" : true,
@@ -29,19 +29,9 @@
   "descripcion" : "soy maria",
   "edad" : 21
 }, {
-  "id" : "7fe26e73-0106-48e2-9274-5793f397304e",
-  "username" : "maria",
-  "contraseña" : "12345",
-  "nombre" : "maria",
-  "apellido" : "jol",
-  "activo" : true,
-  "ultimoAcceso" : "2025-10-31T12:02:40.693017",
-  "descripcion" : "soy maria",
-  "edad" : 21
-}, {
   "id" : "ed3e0a14-77d9-436a-a3da-cce804bb68b0",
   "username" : "999-*/",
-  "contraseña" : "daniel",
+  "contraseña" : "123456",
   "nombre" : "daniel",
   "apellido" : "v",
   "activo" : true,
@@ -51,11 +41,41 @@
 }, {
   "id" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
   "username" : "val",
-  "contraseña" : "123",
+  "contraseña" : "123456",
   "nombre" : "valeria",
   "apellido" : "leon",
   "activo" : true,
   "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
   "descripcion" : "bien",
   "edad" : 21
+}, {
+  "id" : "6ab581c0-cc8a-44c0-ba81-d62e7d256b0d",
+  "username" : "gilbertmatatan1",
+  "contraseña" : "123456",
+  "nombre" : "lskdjfhuefhrg",
+  "apellido" : "kejwheirht",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-12T16:09:43.6373824",
+  "descripcion" : "kwehfiugf",
+  "edad" : 35
+}, {
+  "id" : "595ca7f3-a012-465a-9e24-240f47ad9f8c",
+  "username" : "gilbertmatatan123",
+  "contraseña" : "123456",
+  "nombre" : "aieufh",
+  "apellido" : "askjnsdbjf",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-12T17:00:44.7339232",
+  "descripcion" : "sldihfidgbf",
+  "edad" : 45
+}, {
+  "id" : "5a8cbefd-f0a0-4fc3-97ca-9d80c012bbf3",
+  "username" : "balsebu777",
+  "contraseña" : "oe",
+  "nombre" : "balsebu",
+  "apellido" : "777",
+  "activo" : true,
+  "ultimoAcceso" : "2025-11-12T18:44:55.6702612",
+  "descripcion" : "yea",
+  "edad" : 16
 } ]

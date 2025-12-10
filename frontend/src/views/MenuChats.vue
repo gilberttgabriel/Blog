@@ -1,39 +1,447 @@
 <template>
-  <div class="main-content">
-    <div class="header-actions">
-      <button class="createChat-btn"><svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus-square</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-100.000000, -1035.000000)" fill="#000000"> <path d="M130,1063 C130,1064.1 129.104,1065 128,1065 L104,1065 C102.896,1065 102,1064.1 102,1063 L102,1039 C102,1037.9 102.896,1037 104,1037 L128,1037 C129.104,1037 130,1037.9 130,1039 L130,1063 L130,1063 Z M128,1035 L104,1035 C101.791,1035 100,1036.79 100,1039 L100,1063 C100,1065.21 101.791,1067 104,1067 L128,1067 C130.209,1067 132,1065.21 132,1063 L132,1039 C132,1036.79 130.209,1035 128,1035 L128,1035 Z M122,1050 L117,1050 L117,1045 C117,1044.45 116.552,1044 116,1044 C115.448,1044 115,1044.45 115,1045 L115,1050 L110,1050 C109.448,1050 109,1050.45 109,1051 C109,1051.55 109.448,1052 110,1052 L115,1052 L115,1057 C115,1057.55 115.448,1058 116,1058 C116.552,1058 117,1057.55 117,1057 L117,1052 L122,1052 C122.552,1052 123,1051.55 123,1051 C123,1050.45 122.552,1050 122,1050 L122,1050 Z" id="plus-square" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
-      <button class="delete-btn"><svg viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.5 7.08499V21.415C6.5 21.695 6.72 21.915 7 21.915H17C17.28 21.915 17.5 21.695 17.5 21.415V7.08499" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 5.08499H10V3.58499C10 3.30499 10.22 3.08499 10.5 3.08499H13.5C13.78 3.08499 14 3.30499 14 3.58499V5.08499Z" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M5 5.08499H19" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 10.465V17.925" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15 9.465V18.925" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 9.465V18.925" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+  <div class="menu-chats-page">
+    <div class="header">
+      <h1>chats</h1>
+      <button @click="mostrarModalUsuarios" class="btn-nuevo-chat" data-tooltip="Nuevo chat" data-tooltip-pos="bottom">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div v-if="loading" class="loading">
+      Cargando chats...
+    </div>
+
+    <div v-else-if="chats.length === 0" class="empty-state">
+      <p>No tienes conversaciones aún</p>
+      <button @click="mostrarModalUsuarios" class="btn-create" data-tooltip="Crear tu primer chat">Iniciar una conversación</button>
+    </div>
+
+    <div v-else class="chats-list">
+      <div
+        v-for="chat in chats"
+        :key="chat.id"
+        class="chat-card"
+        @click="irAChat(chat.id)"
+        data-tooltip="Ver chat"
+      >
+        <div class="chat-info">
+          <h3>{{ obtenerNombreOtroUsuario(chat) }}</h3>
+          <p class="ultimo-mensaje">{{ chat.ultimoMensaje || 'No hay mensajes aún' }}</p>
+        </div>
+        <div class="chat-fecha">
+          <span>{{ formatDate(chat.fechaCreacion) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="mostrarModal" class="modal-overlay" @click="cerrarModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h2>nueva conversación</h2>
+          <button @click="cerrarModal" class="btn-close" data-tooltip="Cerrar" data-tooltip-pos="left">×</button>
+        </div>
+        
+        <div class="search-usuario">
+          <input 
+            type="text" 
+            v-model="busquedaUsuario" 
+            placeholder="Buscar usuario..."
+          />
+        </div>
+
+        <div v-if="loadingUsuarios" class="loading-usuarios">
+          Cargando usuarios...
+        </div>
+
+        <div v-else class="usuarios-list">
+          <div 
+            v-for="usuario in usuariosFiltrados" 
+            :key="usuario.id" 
+            class="usuario-item"
+            @click="crearChatConUsuario(usuario.id)"
+          >
+            <div class="usuario-info">
+              <h4>{{ usuario.username }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MenuChats"
+  name: "MenuChats",
+  data() {
+    return {
+      chats: [],
+      usuarios: [],
+      usuarioActualId: '',
+      loading: false,
+      loadingUsuarios: false,
+      mostrarModal: false,
+      busquedaUsuario: ''
+    }
+  },
+  computed: {
+    usuariosFiltrados() {
+      const otrosUsuarios = this.usuarios.filter(u => u.id !== this.usuarioActualId);
+      
+      if (!this.busquedaUsuario) {
+        return otrosUsuarios;
+      }
+      
+      const query = this.busquedaUsuario.toLowerCase();
+      return otrosUsuarios.filter(u => 
+        u.username.toLowerCase().includes(query)
+      );
+    }
+  },
+  async mounted() {
+      // Verificar si es admin - los admins no pueden acceder a chats
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const userLocal = JSON.parse(userData);
+        if (userLocal.username === 'admin') {
+          this.$router.push('/inicio');
+          return;
+        }
+      }
+      
+      await this.cargarUsuarios();
+      this.cargarUsuarioActual();
+      await this.cargarChats();
+    },
+  methods: {
+    cargarUsuarioActual() {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const userData = JSON.parse(user);
+        this.usuarioActualId = userData.id;
+      }
+    },
+
+    async cargarChats() {
+      this.loading = true;
+      try {
+        const response = await fetch(`http://localhost:8080/api/chats/${this.usuarioActualId}`);
+        if (response.ok) {
+          this.chats = await response.json();
+        }
+      } catch (error) {
+        // Error cargando chats
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async cargarUsuarios() {
+      this.loadingUsuarios = true;
+      try {
+        const response = await fetch('http://localhost:8080/api/usuarios');
+        if (response.ok) {
+          this.usuarios = await response.json();
+        }
+      } catch (error) {
+        // Error cargando usuarios
+      } finally {
+        this.loadingUsuarios = false;
+      }
+    },
+    obtenerNombreOtroUsuario(chat) {
+      const otroUsuarioId = chat.usuarioIds.find(id => id !== this.usuarioActualId);
+      const otroUsuario = this.usuarios.find(u => u.id === otroUsuarioId);
+      return otroUsuario ? otroUsuario.username : 'Usuario desconocido';
+    },
+    async mostrarModalUsuarios() {
+      this.mostrarModal = true;
+      await this.cargarUsuarios();
+    },
+
+    cerrarModal() {
+      this.mostrarModal = false;
+      this.busquedaUsuario = '';
+    },
+
+    async crearChatConUsuario(otroUsuarioId) {
+      try {
+        const response = await fetch('http://localhost:8080/api/chat/crear', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            usuarioIds: [this.usuarioActualId, otroUsuarioId]
+          })
+        });
+
+        if (response.ok) {
+          const chat = await response.json();
+          this.cerrarModal();
+          this.$router.push(`/chat/${chat.id}`);
+        }
+      } catch (error) {
+        // Error creando chat
+      }
+    },
+
+    irAChat(chatId) {
+      this.$router.push(`/chat/${chatId}`);
+    },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 0) return 'Hoy';
+      if (diffDays === 1) return 'Ayer';
+      if (diffDays < 7) return `Hace ${diffDays} días`;
+      
+      return date.toLocaleDateString('es-ES', { 
+        day: 'numeric', 
+        month: 'short' 
+      });
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .header-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-  }
-  button {
-    background: none;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  button svg {
-    width: 50px;
-    height: 50px;
-    display: block;
-    stroke: black;
-  }
+  .menu-chats-page {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 2rem;
+}
+
+.header {
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+}
+.btn-nuevo-chat {
+  width: 50px;
+  height: 50px;
+  background-color: #a8d5ba;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-nuevo-chat svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.btn-nuevo-chat:hover {
+  background-color: #8bc9a3;
+  transform: scale(1.1);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.1rem;
+  color: #666;
+}
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.empty-state p {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.3rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.btn-create {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background-color: #a8d5ba;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-family: 'FuenteHeader', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-create:hover {
+  background-color: #8bc9a3;
+  transform: translateY(-2px);
+}
+.chats-list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.chat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.chat-info {
+  flex: 1;
+}
+.chat-info h3 {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.ultimo-mensaje {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 0.95rem;
+  color: #666;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat-fecha {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 0.85rem;
+  color: #999;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-close:hover {
+  color: #333;
+}
+
+.search-usuario {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-usuario input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  background-color: #f5f5dc;
+  border-radius: 20px;
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1rem;
+}
+.loading-usuarios {
+  padding: 2rem;
+  text-align: center;
+  font-family: 'FuenteHeader', sans-serif;
+  color: #666;
+}
+
+.usuarios-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.usuario-item {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10px;
+  margin-bottom: 0.3rem;
+}
+.usuario-info h4 {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+}
 </style>
 
 

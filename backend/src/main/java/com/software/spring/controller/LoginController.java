@@ -1,7 +1,10 @@
 package com.software.spring.controller;
 
-import com.software.spring.model.entity.Usuario;
+import com.software.spring.model.Usuario;
+import com.software.spring.model.Administrador;
+import com.software.spring.model.LoginRequest;
 import com.software.spring.service.UsuarioService;
+import com.software.spring.service.AdministradorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,121 +13,44 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     
     private final UsuarioService usuarioService;
+    private final AdministradorService administradorService;
     
-    public LoginController(UsuarioService usuarioService) {
+    public LoginController(UsuarioService usuarioService, AdministradorService administradorService) {
         this.usuarioService = usuarioService;
+        this.administradorService = administradorService;
     }
     
     /**
-     * Endpoint para login
+     * Endpoint para login (usuarios y administradores)
      * POST /api/auth/login
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            Usuario usuario = usuarioService.autenticarUsuario(
-                request.getUsername(), 
-                request.getContraseña()
-            );
-            
-            // Crear respuesta sin exponer la contraseña
-            LoginResponse response = new LoginResponse(
-                usuario.getId(),
-                usuario.getUsername(),
-                usuario.getNombre(),
-                usuario.getApellido(),
-                "Login exitoso"
-            );
-            
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
+            // Primero intentar como usuario normal
+            try {
+                Usuario usuario = usuarioService.autenticarUsuario(
+                    request.getUsername(), 
+                    request.getContraseña()
+                );
+                
+                return ResponseEntity.ok(usuario);
+            } catch (Exception e) {
+                // Si no es usuario, intentar como administrador
+                Administrador admin = administradorService.autenticarAdministrador(
+                    request.getUsername(), 
+                    request.getContraseña()
+                );
+                
+                return ResponseEntity.ok(admin);
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(401)
-                .body(new ErrorResponse("Error de autenticación: " + e.getMessage()));
+                .body("Error de autenticación: " + e.getMessage());
         }
     }
     
-    /**
-     * Endpoint para registro de nuevo usuario
-     * POST /api/auth/register
-     */
-
     
-    // Clases internas para las peticiones y respuestas
-    
-    public static class LoginRequest {
-        private String username;
-        private String contraseña;
-        
-        public LoginRequest() {}
-        
-        public String getUsername() { return username; }
-        public void setUsername(String username) { this.username = username; }
-        
-        public String getContraseña() { return contraseña; }
-        public void setContraseña(String contraseña) { this.contraseña = contraseña; }
-    }
-    
-    public static class LoginResponse {
-        private String id;
-        private String username;
-        private String nombre;
-        private String apellido;
-        private String descripcion;
-        private Integer edad;
-        private String mensaje;
-        
-        // Constructor para login (sin descripción y edad)
-        public LoginResponse(String id, String username, String nombre, String apellido, String mensaje) {
-            this.id = id;
-            this.username = username;
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.mensaje = mensaje;
-        }
-        
-        // Constructor completo para registro (con descripción y edad)
-        public LoginResponse(String id, String username, String nombre, String apellido, String descripcion, Integer edad, String mensaje) {
-            this.id = id;
-            this.username = username;
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.descripcion = descripcion;
-            this.edad = edad;
-            this.mensaje = mensaje;
-        }
-        
-        public String getId() { return id; }
-        public void setId(String id) { this.id = id; }
-        
-        public String getUsername() { return username; }
-        public void setUsername(String username) { this.username = username; }
-        
-        public String getNombre() { return nombre; }
-        public void setNombre(String nombre) { this.nombre = nombre; }
-        
-        public String getApellido() { return apellido; }
-        public void setApellido(String apellido) { this.apellido = apellido; }
-        
-        public String getDescripcion() { return descripcion; }
-        public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-        
-        public Integer getEdad() { return edad; }
-        public void setEdad(Integer edad) { this.edad = edad; }
-        
-        public String getMensaje() { return mensaje; }
-        public void setMensaje(String mensaje) { this.mensaje = mensaje; }
-    }
-    
-    public static class ErrorResponse {
-        private String error;
-        
-        public ErrorResponse(String error) {
-            this.error = error;
-        }
-        
-        public String getError() { return error; }
-        public void setError(String error) { this.error = error; }
-    }
 }
 
 

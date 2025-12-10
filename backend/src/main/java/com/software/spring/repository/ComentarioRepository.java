@@ -1,6 +1,6 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.entity.Comentario;
+import com.software.spring.model.Comentario;
 import java.util.List;
 
 public interface ComentarioRepository {

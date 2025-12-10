@@ -1,6 +1,6 @@
 package com.software.spring.service;
 
-import com.software.spring.model.entity.Comentario;
+import com.software.spring.model.Comentario;
 import com.software.spring.repository.ComentarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -24,10 +24,11 @@ public class ComentarioService {
             throw new IllegalArgumentException("el campo comentario no puede estar vacio");
         }
 
-        String id = UUID.randomUUID().toString();
+        // Generar un ID único para el comentario
+        Integer id = Math.abs(UUID.randomUUID().hashCode());
         
         Comentario nuevo = new Comentario(
-            Integer.parseInt(id),
+            id,
             comentario.getContenido(),
             comentario.getAutor(),
             comentario.getPublicacionId(),

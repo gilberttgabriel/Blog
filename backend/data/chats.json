@@ -1,0 +1,56 @@
+[ {
+  "id" : 525688795,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "7fe26e73-0106-48e2-9274-5793f397304e" ],
+  "fechaCreacion" : "2025-11-05T16:50:47.7712011",
+  "ultimoMensaje" : "kdjgkdjg"
+}, {
+  "id" : 1030282536,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5" ],
+  "fechaCreacion" : "2025-11-05T16:56:00.2663656",
+  "ultimoMensaje" : "kqjjhdf"
+}, {
+  "id" : 630078096,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
+  "fechaCreacion" : "2025-11-05T17:04:56.5977496",
+  "ultimoMensaje" : "ksdnsmnf"
+}, {
+  "id" : 923075388,
+  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
+  "fechaCreacion" : "2025-11-05T18:08:07.638077",
+  "ultimoMensaje" : "kjkjdf"
+}, {
+  "id" : 1534618321,
+  "usuarioIds" : [ "68e678d2-9153-4751-bd1c-23a279d6ade0", "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5" ],
+  "fechaCreacion" : "2025-11-06T17:30:09.6721176",
+  "ultimoMensaje" : "ajkdb"
+}, {
+  "id" : 1923485687,
+  "usuarioIds" : [ "68e678d2-9153-4751-bd1c-23a279d6ade0", "7fe26e73-0106-48e2-9274-5793f397304e" ],
+  "fechaCreacion" : "2025-11-07T12:36:43.2712086",
+  "ultimoMensaje" : "ljskhscd"
+}, {
+  "id" : 1861871176,
+  "usuarioIds" : [ "68e678d2-9153-4751-bd1c-23a279d6ade0", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
+  "fechaCreacion" : "2025-11-07T12:36:52.1555801",
+  "ultimoMensaje" : "qlq"
+}, {
+  "id" : 879975174,
+  "usuarioIds" : [ "7fe26e73-0106-48e2-9274-5793f397304e", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
+  "fechaCreacion" : "2025-11-10T19:09:49.4828504",
+  "ultimoMensaje" : null
+}, {
+  "id" : 1390001518,
+  "usuarioIds" : [ "68e678d2-9153-4751-bd1c-23a279d6ade0", "595ca7f3-a012-465a-9e24-240f47ad9f8c" ],
+  "fechaCreacion" : "2025-11-12T18:36:33.9630605",
+  "ultimoMensaje" : "eu"
+}, {
+  "id" : 1178736315,
+  "usuarioIds" : [ "5a8cbefd-f0a0-4fc3-97ca-9d80c012bbf3", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
+  "fechaCreacion" : "2025-11-12T18:46:10.8196162",
+  "ultimoMensaje" : "hola"
+}, {
+  "id" : 1937955973,
+  "usuarioIds" : [ "2fea91ec-50b6-4d4e-87a1-0b2cb5c2abd6", "6192b605-096a-4a74-a4fc-54a7ed8f7ace" ],
+  "fechaCreacion" : "2025-11-13T11:00:50.6379563",
+  "ultimoMensaje" : "hola"
+} ]

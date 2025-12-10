@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <div class="header">
+    <!-- <div class="header">
       <div class="search-bar">
         <input 
           type="text" 
@@ -13,24 +13,32 @@
           <path d="M21 21L16.65 16.65" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
+    </div> -->
+
+    <!-- Banner de Anuncio -->
+    <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)" data-tooltip="Ver anuncio" data-tooltip-pos="bottom">
+      <span class="anuncio-label">Anuncio</span>
+      <img v-if="anuncio.imagen" :src="anuncio.imagen" alt="Anuncio" class="anuncio-imagen" />
     </div>
 
-    <div class="content-area">
+    <!-- Contenido solo para usuarios normales (no admin) -->
+    <div v-if="!isAdmin" class="content-area">
       <div v-if="loading" class="loading">
         Cargando publicaciones...
       </div>
       
-      <div v-else-if="filteredPublicaciones.length === 0" class="empty-state">
+      <div v-else-if="publicaciones.length === 0" class="empty-state">
         <p>No hay publicaciones aún</p>
-        <router-link to="/create" class="btn-create">Crear la primera publicación</router-link>
+        <router-link to="/crear" class="btn-create">Crear la primera publicación</router-link>
       </div>
       
       <div v-else class="publicaciones-list">
         <div 
-          v-for="publicacion in filteredPublicaciones" 
+          v-for="publicacion in publicaciones" 
           :key="publicacion.id" 
           class="publicacion-card"
           @click="irAPublicacion(publicacion.id)"
+          data-tooltip="Ver publicación"
         >
           <h2>{{ publicacion.titulo }}</h2>
           <p class="contenido">{{ publicacion.contenido }}</p>
@@ -38,6 +46,7 @@
             <span 
               class="autor" 
               @click.stop="irAPerfil(publicacion.autorId)"
+              data-tooltip="Ver perfil"
             >
               {{ obtenerNombreAutor(publicacion.autorId) }}
             </span>
@@ -57,11 +66,14 @@ export default {
     return {
       publicaciones: [],
       usuarios: [],
-      searchQuery: '',
-      loading: false
+      anuncio: null,
+      // searchQuery: '',  // Comentado para después
+      loading: false,
+      isAdmin: false
     }
   },
-  computed: {
+  // Buscador comentado para después
+  /* computed: {
     filteredPublicaciones() {
       if (!this.searchQuery) {
         return this.publicaciones;
@@ -72,18 +84,27 @@ export default {
         pub.contenido.toLowerCase().includes(query)
       );
     }
-  },
+  }, */
   mounted() {
+    this.checkUserType();
     this.cargarDatos();
   },
   methods: {
+    checkUserType() {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const userData = JSON.parse(user);
+        this.isAdmin = userData.username === 'admin';
+      }
+    },
     async cargarDatos() {
       this.loading = true;
       try {
-        // Cargar publicaciones y usuarios en paralelo
-        const [publicacionesRes, usuariosRes] = await Promise.all([
+        // Cargar publicaciones, usuarios y anuncio en paralelo
+        const [publicacionesRes, usuariosRes, anuncioRes] = await Promise.all([
           fetch('http://localhost:8080/api/publicacion'),
-          fetch('http://localhost:8080/api/usuarios')
+          fetch('http://localhost:8080/api/usuarios'),
+          fetch('http://localhost:8080/api/anuncio')
         ]);
         
         if (publicacionesRes.ok) {
@@ -93,8 +114,12 @@ export default {
         if (usuariosRes.ok) {
           this.usuarios = await usuariosRes.json();
         }
+        
+        if (anuncioRes.ok) {
+          this.anuncio = await anuncioRes.json();
+        }
       } catch (error) {
-        console.error('Error cargando datos:', error);
+        // Error cargando datos
       } finally {
         this.loading = false;
       }
@@ -104,14 +129,17 @@ export default {
       return usuario ? usuario.username : 'Usuario desconocido';
     },
     irAPublicacion(publicacionId) {
-      this.$router.push(`/post/${publicacionId}`);
+      this.$router.push(`/publicacion/${publicacionId}`);
     },
     irAPerfil(autorId) {
-      this.$router.push(`/profile/${autorId}`);
+      this.$router.push(`/perfil/${autorId}`);
     },
-    handleSearch() {
+    irAAnuncio(anuncioId) {
+      this.$router.push(`/anuncio/${anuncioId}`);
+    },
+    /* handleSearch() {
       // La búsqueda se hace automáticamente con el computed property
-    },
+    }, */
     formatDate(dateString) {
       if (!dateString) return '';
       const date = new Date(dateString);
@@ -291,6 +319,53 @@ export default {
   font-family: 'FuenteHeader', sans-serif;
   font-size: 0.85rem;
   color: #999;
+}
+
+/* Estilos del banner de anuncio */
+.anuncio-banner {
+  position: relative;
+  width: 100%;
+  max-width: 970px;
+  height: 90px;
+  margin: 1.5rem auto 0.5rem auto;
+  background-color: #a94442;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1;
+}
+
+.anuncio-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Asegurar que el tooltip del anuncio se vea */
+.anuncio-banner[data-tooltip]:before,
+.anuncio-banner[data-tooltip]:after {
+  z-index: 10001 !important;
+}
+
+.anuncio-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.anuncio-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
 }
 </style>
 

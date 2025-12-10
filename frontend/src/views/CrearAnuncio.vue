@@ -1,7 +1,7 @@
 <template>
   <div class="create-post-page">
     <div class="create-post-content">
-      <h1>crear publicacion</h1>
+      <h1>crear anuncio</h1>
       
       <form @submit.prevent="handlePublish" class="post-form">
         <div class="form-section">
@@ -9,8 +9,8 @@
           <input 
             type="text" 
             id="titulo" 
-            v-model="postData.titulo" 
-            placeholder="Escribe el título de tu publicación"
+            v-model="anuncioData.titulo" 
+            placeholder="Escribe el título del anuncio"
             required
           />
         </div>
@@ -19,11 +19,40 @@
           <label for="contenido">contenido</label>
           <textarea 
             id="contenido" 
-            v-model="postData.contenido" 
-            placeholder="Escribe el contenido de tu publicación"
-            rows="8"
+            v-model="anuncioData.contenido" 
+            placeholder="Escribe el contenido del anuncio"
+            rows="6"
             required
           ></textarea>
+        </div>
+        
+        <div class="form-section">
+          <label for="imagen">imagen del banner</label>
+          <p class="image-hint">Tamaño recomendado: 970 x 90 píxeles</p>
+          <div class="image-upload-area">
+            <input 
+              type="file" 
+              id="imagen" 
+              @change="handleImageUpload" 
+              accept="image/*"
+              ref="fileInput"
+              style="display: none"
+            />
+            <button 
+              type="button" 
+              @click="$refs.fileInput.click()" 
+              class="btn-upload"
+              data-tooltip="Seleccionar imagen"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width: 1.5em; height: 1.5em;">
+                <path d="M7 10L12 15L17 10M12 15V3M5 20H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ imagenNombre || 'Seleccionar imagen' }}
+            </button>
+            <div v-if="imagenPreview" class="image-preview">
+              <img :src="imagenPreview" alt="Preview" />
+            </div>
+          </div>
         </div>
         
         <div v-if="errorMessage" class="error-message">
@@ -35,8 +64,8 @@
         </div>
         
         <div class="button-group">
-          <button type="button" @click="handleCancel" class="btn-cancel" data-tooltip="Cancelar publicación">cancelar</button>
-          <button type="submit" class="btn-publish" data-tooltip="Publicar">publicar</button>
+          <button type="button" @click="handleCancel" class="btn-cancel" data-tooltip="Cancelar anuncio">cancelar</button>
+          <button type="submit" class="btn-publish" data-tooltip="Publicar anuncio">publicar</button>
         </div>
       </form>
     </div>
@@ -45,55 +74,73 @@
 
 <script>
 export default {
-  name: 'CrearPublicacion',
+  name: 'CrearAnuncio',
   data() {
     return {
-      postData: {
+      anuncioData: {
         titulo: '',
         contenido: '',
-        autorId: ''
+        imagen: null
       },
+      imagenNombre: '',
+      imagenPreview: null,
       errorMessage: '',
       successMessage: ''
     }
   },
   mounted() {
-    // Obtener el usuario del localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    
-    // Verificar si es admin - los admins no pueden crear publicaciones
-    if (user && user.username === 'admin') {
-      this.$router.push('/inicio');
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      this.$router.push('/autenticacion');
       return;
     }
     
-    if (user && user.id) {
-      this.postData.autorId = user.id;
-    } else {
-      // Si no hay usuario, redirigir al login
-      this.$router.push('/autenticacion');
+    const userLocal = JSON.parse(userData);
+    if (userLocal.username !== 'admin') {
+      this.$router.push('/inicio');
+      return;
     }
   },
   methods: {
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imagenNombre = file.name;
+        
+        // Crear preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagenPreview = e.target.result;
+          this.anuncioData.imagen = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    
     async handlePublish() {
       this.errorMessage = '';
       this.successMessage = '';
       
       try {
-        const response = await fetch('http://localhost:8080/api/publicacion/crear', {
+        const response = await fetch('http://localhost:8080/api/anuncio/crear', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(this.postData)
+          body: JSON.stringify(this.anuncioData)
         });
         
         if (response.ok) {
-          this.successMessage = 'Publicación creada exitosamente!';
+          this.successMessage = 'Anuncio creado exitosamente!';
           
           // Limpiar el formulario
-          this.postData.titulo = '';
-          this.postData.contenido = '';
+          this.anuncioData = {
+            titulo: '',
+            contenido: '',
+            imagen: null
+          };
+          this.imagenNombre = '';
+          this.imagenPreview = null;
           
           // Redirigir después de 1.5 segundos
           setTimeout(() => {
@@ -101,18 +148,23 @@ export default {
           }, 1500);
         } else {
           const error = await response.json();
-          this.errorMessage = error.message || 'Error al crear la publicación';
+          this.errorMessage = error.message || 'Error al crear el anuncio';
         }
       } catch (error) {
         this.errorMessage = 'Error de conexión. Intenta nuevamente.';
-        // Error creando publicación
+        // Error creando anuncio
       }
     },
     
     handleCancel() {
       // Limpiar el formulario
-      this.postData.titulo = '';
-      this.postData.contenido = '';
+      this.anuncioData = {
+        titulo: '',
+        contenido: '',
+        imagen: null
+      };
+      this.imagenNombre = '';
+      this.imagenPreview = null;
       this.errorMessage = '';
       this.successMessage = '';
       
@@ -173,6 +225,17 @@ label {
   color: #333;
 }
 
+.image-hint {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #e8f5e9;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin: 0;
+  border-left: 4px solid #4caf50;
+}
+
 input, textarea {
   padding: 1.2rem 1.5rem;
   border: none;
@@ -190,8 +253,47 @@ input:focus, textarea:focus {
 
 textarea {
   resize: vertical;
-  min-height: 200px;
+  min-height: 150px;
   border-radius: 30px;
+}
+
+.image-upload-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-family: 'FuenteHeader', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-upload:hover {
+  background-color: #c9c9c9;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  max-width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
 }
 
 .error-message {
@@ -253,5 +355,4 @@ textarea {
   transform: translateY(-2px);
 }
 </style>
-
 
