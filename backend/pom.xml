@@ -67,6 +67,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>com.software.spring.SpringApp</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
