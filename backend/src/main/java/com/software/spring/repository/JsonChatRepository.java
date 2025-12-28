@@ -131,5 +131,30 @@ public class JsonChatRepository implements ChatRepository {
             lock.writeLock().unlock();
         }
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        lock.writeLock().lock();
+        try {
+            List<Chat> chats = readChatsUnsafe();
+            boolean removed = chats.removeIf(c -> Objects.equals(c.getId(), id));
+
+            if (!removed) {
+                throw new IllegalArgumentException("No se encontró el chat con ID: " + id);
+            }
+
+            writeChatsUnsafe(chats);
+        } catch (IOException e) {
+            throw new RuntimeException("Error eliminando chat en " + dbPath, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return findById(id).isPresent();
+    }
+
 }
 

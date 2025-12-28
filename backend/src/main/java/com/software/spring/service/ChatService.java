@@ -52,4 +52,13 @@ public class ChatService {
         chat.setUltimoMensaje(contenidoMensaje);
         repo.update(chat);
     }
+
+    public boolean eliminarChat(Integer chatId) {
+        if (repo.existsById(chatId)) {
+            repo.deleteById(chatId);
+            return true; // eliminado correctamente
+        }
+        return false; // no existe el chat
+    }
+
 }

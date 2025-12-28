@@ -33,6 +33,15 @@
         <div class="chat-fecha">
           <span>{{ formatDate(chat.fechaCreacion) }}</span>
         </div>
+        <button class="btn-eliminar" @click="eliminarChat(chat.id)">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -89,13 +98,13 @@ export default {
   computed: {
     usuariosFiltrados() {
       const otrosUsuarios = this.usuarios.filter(u => u.id !== this.usuarioActualId);
-      
+
       if (!this.busquedaUsuario) {
         return otrosUsuarios;
       }
-      
+
       const query = this.busquedaUsuario.toLowerCase();
-      return otrosUsuarios.filter(u => 
+      return otrosUsuarios.filter(u =>
         u.username.toLowerCase().includes(query)
       );
     }
@@ -205,6 +214,26 @@ export default {
         day: 'numeric', 
         month: 'short' 
       });
+    },
+    async eliminarChat(chatId) {
+      if (!confirm('¿Estás seguro de que quieres eliminar este chat?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/chat/${chatId}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok || response.status === 204) {
+          // Eliminar el chat de la lista local
+          this.chats = this.chats.filter(c => c.id !== chatId);
+        } else {
+          alert('Error al eliminar el chat');
+        }
+      } catch (error) {
+        alert('Error al eliminar el chat');
+      }
     }
   }
 }
@@ -308,6 +337,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -442,6 +472,26 @@ h1 {
   font-weight: 500;
   color: #333;
 }
+  .btn-eliminar {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+  }
+
+  .btn-eliminar:hover {
+    background-color: rgba(0,0,0,0.05); /* leve sombreado al pasar el mouse */
+  }
+
+  .btn-eliminar svg {
+    width: 22px;
+    height: 22px;
+  }
 </style>
 
 

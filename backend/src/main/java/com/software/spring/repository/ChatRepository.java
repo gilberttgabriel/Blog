@@ -11,4 +11,6 @@ public interface ChatRepository {
     Optional<Chat> findById(Integer id);
     List<Chat> findAll();
     List<Chat> findByUsuarioId(String usuarioId);
+    void deleteById(Integer id);   // nuevo método
+    boolean existsById(Integer id);
 }

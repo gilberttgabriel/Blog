@@ -9,11 +9,6 @@
   "fechaCreacion" : "2025-11-05T16:56:00.2663656",
   "ultimoMensaje" : "kqjjhdf"
 }, {
-  "id" : 630078096,
-  "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
-  "fechaCreacion" : "2025-11-05T17:04:56.5977496",
-  "ultimoMensaje" : "ksdnsmnf"
-}, {
   "id" : 923075388,
   "usuarioIds" : [ "6192b605-096a-4a74-a4fc-54a7ed8f7ace", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
   "fechaCreacion" : "2025-11-05T18:08:07.638077",
@@ -53,9 +48,4 @@
   "usuarioIds" : [ "2fea91ec-50b6-4d4e-87a1-0b2cb5c2abd6", "6192b605-096a-4a74-a4fc-54a7ed8f7ace" ],
   "fechaCreacion" : "2025-11-13T11:00:50.6379563",
   "ultimoMensaje" : "hola"
-}, {
-  "id" : 1212708977,
-  "usuarioIds" : [ "c7367ca3-7c67-4871-a8b0-706b7fd0912f", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
-  "fechaCreacion" : "2025-12-28T17:39:57.197726617",
-  "ultimoMensaje" : "saludos a el gordo"
 } ]
