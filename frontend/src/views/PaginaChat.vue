@@ -7,6 +7,13 @@
         </svg>
       </button>
       <h2>{{ nombreOtroUsuario }}</h2>
+      <div class="search-usuario">
+        <input
+            type="text"
+            v-model="buscarMensaje"
+            placeholder="Buscar Mensaje..."
+        />
+      </div>
     </div>
   
       <div class="messages-container" ref="messagesContainer">
@@ -20,7 +27,7 @@
           </div>
   
           <div 
-            v-for="mensaje in mensajes" 
+            v-for="mensaje in mensajesFiltrados"
             :key="mensaje.id" 
             :class="['mensaje', mensaje.autorId === usuarioActualId ? 'mensaje-propio' : 'mensaje-otro']"
           >
@@ -59,7 +66,8 @@
         usuarioActualId: '',
         nuevoMensaje: '',
         loading: false,
-        chatId: null
+        chatId: null,
+        buscarMensaje: ''
       }
     },
     computed: {
@@ -68,6 +76,13 @@
         const otroUsuarioId = this.chat.usuarioIds.find(id => id !== this.usuarioActualId);
         const usuario = this.usuarios.find(u => u.id === otroUsuarioId);
         return usuario ? usuario.username : 'Usuario';
+      },
+      mensajesFiltrados() {
+        if (!this.buscarMensaje) return this.mensajes;
+        const query = this.buscarMensaje.toLowerCase();
+        return this.mensajes.filter(m =>
+            m.contenido.toLowerCase().includes(query)
+        );
       }
     },
     mounted() {
@@ -373,6 +388,24 @@
   
   .messages-container::-webkit-scrollbar-thumb:hover {
     background: #c9c9c9;
+  }
+
+
+  .search-usuario {
+    padding: 1rem 1.5rem;
+    margin-left: auto;
+    margin-right: 10%;
+    padding: 8px 12px;
+  }
+
+  .search-usuario input {
+    width: 300px;
+    padding: 0.8rem 1rem;
+    border: none;
+    background-color: #f5f5dc;
+    border-radius: 20px;
+    font-family: 'FuenteHeader', sans-serif;
+    font-size: 1rem;
   }
   </style>
   
