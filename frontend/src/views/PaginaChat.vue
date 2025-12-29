@@ -8,6 +8,12 @@
       </button>
       <h2>{{ nombreOtroUsuario }}</h2>
       <div class="search-usuario">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+            <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
         <input
             type="text"
             v-model="buscarMensaje"
@@ -40,7 +46,7 @@
       </div>
   
       <div class="input-container">
-        <input 
+        <input
           type="text" 
           v-model="nuevoMensaje" 
           @keyup.enter="enviarMensaje"
@@ -390,22 +396,33 @@
     background: #c9c9c9;
   }
 
-
   .search-usuario {
-    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    background-color: #f5f5dc;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
     margin-left: auto;
     margin-right: 10%;
-    padding: 8px 12px;
   }
 
   .search-usuario input {
-    width: 300px;
-    padding: 0.8rem 1rem;
+    flex: 1;
     border: none;
-    background-color: #f5f5dc;
-    border-radius: 20px;
+    background: transparent;
     font-family: 'FuenteHeader', sans-serif;
     font-size: 1rem;
+    outline: none;
+  }
+
+  .search-icon{
+    margin-right: 10px;
+  }
+
+  .search-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #666;
   }
   </style>
   

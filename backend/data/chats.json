@@ -53,9 +53,4 @@
   "usuarioIds" : [ "633ccd59-8400-4878-baa9-3e5677e5ddbb", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
   "fechaCreacion" : "2025-12-29T12:32:26.552780716",
   "ultimoMensaje" : null
-}, {
-  "id" : 565826990,
-  "usuarioIds" : [ "633ccd59-8400-4878-baa9-3e5677e5ddbb", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
-  "fechaCreacion" : "2025-12-29T12:34:37.63704841",
-  "ultimoMensaje" : null
 } ]
