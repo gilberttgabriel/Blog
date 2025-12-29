@@ -48,4 +48,14 @@
   "usuarioIds" : [ "2fea91ec-50b6-4d4e-87a1-0b2cb5c2abd6", "6192b605-096a-4a74-a4fc-54a7ed8f7ace" ],
   "fechaCreacion" : "2025-11-13T11:00:50.6379563",
   "ultimoMensaje" : "hola"
+}, {
+  "id" : 1392701954,
+  "usuarioIds" : [ "633ccd59-8400-4878-baa9-3e5677e5ddbb", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
+  "fechaCreacion" : "2025-12-29T12:32:26.552780716",
+  "ultimoMensaje" : null
+}, {
+  "id" : 565826990,
+  "usuarioIds" : [ "633ccd59-8400-4878-baa9-3e5677e5ddbb", "ed3e0a14-77d9-436a-a3da-cce804bb68b0" ],
+  "fechaCreacion" : "2025-12-29T12:34:37.63704841",
+  "ultimoMensaje" : null
 } ]

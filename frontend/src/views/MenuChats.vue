@@ -33,7 +33,7 @@
         <div class="chat-fecha">
           <span>{{ formatDate(chat.fechaCreacion) }}</span>
         </div>
-        <button class="btn-eliminar" @click="eliminarChat(chat.id)">
+        <button class="btn-eliminar" @click.stop="eliminarChat(chat.id)">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -247,7 +247,7 @@ export default {
 }
 
 .header {
-  max-width: 900px;
+  max-width: 100vw;
   margin: 0 auto 2rem auto;
   display: flex;
   justify-content: space-between;
