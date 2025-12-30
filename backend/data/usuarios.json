@@ -88,4 +88,14 @@
   "ultimoAcceso" : "2025-12-29T12:32:18.327922176",
   "descripcion" : "me gusta el cine",
   "edad" : 22
+}, {
+  "id" : "b2e30209-bad5-4832-897b-bdf92f5ece59",
+  "username" : "nananaim",
+  "contraseña" : "remo1900",
+  "nombre" : "naim",
+  "apellido" : "chelot",
+  "activo" : true,
+  "ultimoAcceso" : "2025-12-30T11:43:00.4042515",
+  "descripcion" : "me gusta ver las peleas de topuria",
+  "edad" : 20
 } ]

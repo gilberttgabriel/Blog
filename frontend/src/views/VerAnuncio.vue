@@ -5,6 +5,14 @@
     </div>
     
     <div v-else-if="anuncio" class="content-area">
+      <div v-if="esAdmin" class="admin-actions">
+        <button class="btn edit" @click="abrirEditor" title="Editar anuncio">
+          ✏️ Editar
+        </button>
+        <button class="btn delete" @click="confirmarEliminar" title="Eliminar anuncio">
+          🗑️ Eliminar
+        </button>
+      </div>
       <!-- Anuncio completo -->
       <div class="anuncio-completo">
         <div class="anuncio-badge">ANUNCIO</div>
@@ -22,6 +30,28 @@
         
         <p class="contenido">{{ anuncio.contenido }}</p>
       </div>
+
+      <!-- Modal de edición -->
+      <div v-if="editando" class="modal-backdrop" @click.self="cancelarEdicion">
+        <div class="modal">
+          <h3>Editar anuncio</h3>
+          <form @submit.prevent="guardarEdicion">
+            <label>Título</label>
+            <input v-model="form.titulo" type="text" required />
+
+            <label>Contenido</label>
+            <textarea v-model="form.contenido" rows="6" required></textarea>
+
+            <label>URL de imagen (opcional)</label>
+            <input v-model="form.imagen" type="text" placeholder="https://..." />
+
+            <div class="modal-actions">
+              <button type="button" class="btn secondary" @click="cancelarEdicion">Cancelar</button>
+              <button type="submit" class="btn primary">Guardar cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
     
     <div v-else class="error-state">
@@ -36,7 +66,21 @@ export default {
   data() {
     return {
       anuncio: null,
-      loading: true
+      loading: true,
+      editando: false,
+      form: {
+        titulo: '',
+        contenido: '',
+        imagen: ''
+      }
+    }
+  },
+  computed: {
+    esAdmin() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        return !!(user && typeof user.numeroContrato !== 'undefined');
+      } catch { return false; }
     }
   },
   mounted() {
@@ -57,12 +101,83 @@ export default {
         
         if (response.ok) {
           this.anuncio = await response.json();
+          // Prellenar formulario de edición
+          this.form.titulo = this.anuncio.titulo || '';
+          this.form.contenido = this.anuncio.contenido || '';
+          this.form.imagen = this.anuncio.imagen || '';
         }
         
       } catch (error) {
         // Error cargando anuncio
       } finally {
         this.loading = false;
+      }
+    },
+    abrirEditor() {
+      this.editando = true;
+    },
+    cancelarEdicion() {
+      this.editando = false;
+      // Restaurar valores del anuncio
+      if (this.anuncio) {
+        this.form.titulo = this.anuncio.titulo || '';
+        this.form.contenido = this.anuncio.contenido || '';
+        this.form.imagen = this.anuncio.imagen || '';
+      }
+    },
+    async guardarEdicion() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user || !user.username || !user.contraseña) {
+          alert('No hay sesión de administrador.');
+          return;
+        }
+        const resp = await fetch(`http://localhost:8080/api/anuncio/${this.anuncio.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Username': user.username,
+            'X-Admin-Password': user.contraseña
+          },
+          body: JSON.stringify({
+            titulo: this.form.titulo,
+            contenido: this.form.contenido,
+            imagen: this.form.imagen
+          })
+        });
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(text || 'No se pudo guardar');
+        }
+        this.anuncio = await resp.json();
+        this.editando = false;
+      } catch (e) {
+        alert(e.message || 'Error al guardar');
+      }
+    },
+    async confirmarEliminar() {
+      if (!confirm('¿Eliminar este anuncio? Esta acción no se puede deshacer.')) return;
+      try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user || !user.username || !user.contraseña) {
+          alert('No hay sesión de administrador.');
+          return;
+        }
+        const resp = await fetch(`http://localhost:8080/api/anuncio/${this.anuncio.id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-Admin-Username': user.username,
+            'X-Admin-Password': user.contraseña
+          }
+        });
+        if (!resp.ok && resp.status !== 204) {
+          const text = await resp.text();
+          throw new Error(text || 'No se pudo eliminar');
+        }
+        // Volver al inicio tras eliminar
+        this.$router.push('/inicio');
+      } catch (e) {
+        alert(e.message || 'Error al eliminar');
       }
     },
     formatDate(dateString) {
@@ -85,6 +200,92 @@ export default {
   min-height: 100vh;
   background-color: #f9f9f9;
   padding: 2rem;
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  font-family: 'FuenteHeader', sans-serif;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn.edit {
+  background: linear-gradient(135deg, #8bc9a3, #a8d5ba);
+  color: #fff;
+}
+
+.btn.delete {
+  background: linear-gradient(135deg, #f38181, #f96f6f);
+  color: #fff;
+}
+
+.btn.primary {
+  background: #5a9f7a;
+  color: #fff;
+}
+
+.btn.secondary {
+  background: #e9ecef;
+  color: #333;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.modal h3 {
+  margin-top: 0;
+  font-family: 'FuenteHeader', sans-serif;
+}
+
+.modal label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.modal input, .modal textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-family: 'FuenteHeader', sans-serif;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .content-area {

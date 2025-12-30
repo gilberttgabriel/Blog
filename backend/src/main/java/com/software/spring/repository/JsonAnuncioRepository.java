@@ -99,6 +99,16 @@ public class JsonAnuncioRepository implements AnuncioRepository {
     }
     
     @Override
+    public void deleteById(Integer id) {
+        if (id == null) return;
+        List<Anuncio> anuncios = readFromFile();
+        boolean changed = anuncios.removeIf(a -> a.getId().equals(id));
+        if (changed) {
+            writeToFile(anuncios);
+        }
+    }
+    
+    @Override
     public Optional<Anuncio> findLatestActive() {
         // Devuelve el anuncio más reciente por fecha de creación
         return readFromFile().stream()

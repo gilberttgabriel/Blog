@@ -56,4 +56,31 @@ public class AnuncioService {
     public java.util.Optional<Anuncio> obtenerAnuncioPorId(Integer id) {
         return anuncioRepository.findById(id);
     }
+
+    /**
+     * Edita un anuncio existente
+     */
+    public Anuncio editarAnuncio(Integer id, Anuncio cambios) {
+        Anuncio existente = anuncioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Anuncio no encontrado: " + id));
+
+        if (cambios.getTitulo() != null && !cambios.getTitulo().trim().isEmpty()) {
+            existente.setTitulo(cambios.getTitulo());
+        }
+        if (cambios.getContenido() != null && !cambios.getContenido().trim().isEmpty()) {
+            existente.setContenido(cambios.getContenido());
+        }
+        if (cambios.getImagen() != null && !cambios.getImagen().trim().isEmpty()) {
+            existente.setImagen(cambios.getImagen());
+        }
+
+        return anuncioRepository.save(existente);
+    }
+
+    /**
+     * Elimina un anuncio por ID
+     */
+    public void eliminarAnuncio(Integer id) {
+        anuncioRepository.deleteById(id);
+    }
 }

@@ -9,5 +9,6 @@ public interface AnuncioRepository {
     List<Anuncio> findAll();
     Optional<Anuncio> findById(Integer id);
     Anuncio save(Anuncio anuncio);
+    void deleteById(Integer id);
     Optional<Anuncio> findLatestActive(); // Encuentra el anuncio activo más reciente
 }
