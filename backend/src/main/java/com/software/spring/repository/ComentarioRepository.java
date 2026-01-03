@@ -1,7 +1,8 @@
 package com.software.spring.repository;
 
-import com.software.spring.model.Comentario;
 import java.util.List;
+
+import com.software.spring.model.Comentario;
 
 public interface ComentarioRepository {
     Comentario save(Comentario comentario);

@@ -69,22 +69,65 @@
                 </span>
                 <span class="comentario-fecha">{{ formatDate(comentario.fechaCreacion) }}</span>
               </div>
-              <button 
-                v-if="puedeEliminarComentario(comentario.autor)"
-                @click="eliminarComentario(comentario.id)"
-                class="btn-eliminar"
-                title="Eliminar comentario"
-              >
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
+              
+              <div class="acciones-comentario">
+                <button 
+                  v-if="puedeEliminarComentario(comentario.autor)"
+                  @click="activarEdicion(comentario)"
+                  class="btn-editar"
+                  title="Editar comentario"
+                >
+                  ✏️
+                </button>
+
+                <button 
+                  v-if="puedeEliminarComentario(comentario.autor)"
+                  @click="eliminarComentario(comentario.id)"
+                  class="btn-eliminar"
+                  title="Eliminar comentario"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+      
+              
             </div>
-            <p class="comentario-contenido">{{ comentario.contenido }}</p>
+            <div class="comentario-contenido">
+              <p v-if="comentarioEditandoId !== comentario.id">
+                {{ comentario.contenido }}
+              </p>
+
+              <div v-else class="editar-comentario">
+                <textarea
+                  v-model="contenidoEditado"
+                  rows="3"
+                ></textarea>
+
+                <div class="acciones-edicion">
+                  <button 
+                    class="btn-guardar"
+                    @click="guardarEdicion(comentario.id)"
+                  >
+                    Guardar
+                  </button>
+
+                  <button 
+                    class="btn-cancelar"
+                    @click="cancelarEdicion"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -107,7 +150,9 @@ export default {
       usuarios: [],
       nuevoComentario: '',
       nombreAutor: '',
-      loading: true
+      loading: true,
+      comentarioEditandoId: null,
+      contenidoEditado: ''
     }
   },
   mounted() {
@@ -240,7 +285,62 @@ export default {
         hour: '2-digit',
         minute: '2-digit'
       });
+    },
+
+    activarEdicion(comentario) {
+      this.comentarioEditandoId = comentario.id;
+      this.contenidoEditado = comentario.contenido;
+    },
+
+    cancelarEdicion() {
+      this.comentarioEditandoId = null;
+      this.contenidoEditado = '';
+    },
+
+    async guardarEdicion(comentarioId) {
+      if (!this.contenidoEditado.trim()) return;
+
+      try {
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+          alert('Usuario no autenticado');
+          return;
+        }
+
+        const user = JSON.parse(userData);
+
+        const response = await fetch(
+          `http://localhost:8080/api/comentariospublicacion/${comentarioId}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              contenido: this.contenidoEditado,
+              autor: user.id
+            })
+          }
+        );
+
+        if (response.ok) {
+          const comentarioActualizado = await response.json();
+
+          const index = this.comentarios.findIndex(c => c.id === comentarioId);
+          if (index !== -1) {
+            this.comentarios[index].contenido = comentarioActualizado.contenido;
+          }
+
+          this.cancelarEdicion();
+        } else {
+          alert('No se pudo editar el comentario');
+        }
+      } catch (error) {
+        alert('Error al editar el comentario');
+      }
     }
+
+
   }
 }
 </script>
@@ -513,6 +613,50 @@ export default {
 .btn-volver:hover {
   background-color: #8bc9a3;
 }
+.acciones-comentario {
+  display: flex;
+  gap: 8px;
+}
+
+.acciones-edicion {
+  display: flex;
+  gap: 12px;              /* más separación entre botones */
+  margin-top: 0.8rem;
+}
+
+.acciones-edicion button {
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Botón Guardar */
+.btn-guardar {
+  background-color: #a8d5ba;
+  color: white;
+}
+
+.btn-guardar:hover {
+  background-color: #8bc9a3;
+  transform: translateY(-2px);
+}
+
+/* Botón Cancelar */
+.btn-cancelar {
+  background-color: #e0e0e0;
+  color: #555;
+}
+
+.btn-cancelar:hover {
+  background-color: #d5d5d5;
+  transform: translateY(-2px);
+}
+
 </style>
 
 

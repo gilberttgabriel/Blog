@@ -1,11 +1,13 @@
 package com.software.spring.service;
 
-import com.software.spring.model.Comentario;
-import com.software.spring.repository.ComentarioRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.software.spring.model.Comentario;
+import com.software.spring.repository.ComentarioRepository;
 
 @Service
 public class ComentarioService {
@@ -44,4 +46,28 @@ public class ComentarioService {
     public void eliminarComentario(Integer id) {
         repo.deleteById(id);
     }
+
+    public Comentario editarComentario(Integer id, String nuevoContenido, String autor) {
+
+        if (!StringUtils.hasText(nuevoContenido)) {
+            throw new IllegalArgumentException("El contenido del comentario no puede estar vacío");
+        }
+
+        Comentario comentario = repo.findAll().stream()
+            .filter(c -> c.getId().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Comentario no encontrado"));
+
+        // Validar que solo el autor pueda editar
+        if (!comentario.getAutor().equals(autor)) {
+            throw new IllegalArgumentException("No tienes permiso para editar este comentario");
+        }
+
+        comentario.setContenido(nuevoContenido); 
+        // comentario.setFechaEdicion(LocalDateTime.now()); // opcional solo tienes que modificar el model
+
+        return repo.save(comentario);
+    }
+
+
 }
