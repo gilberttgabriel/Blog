@@ -67,7 +67,7 @@ export default {
       publicaciones: [],
       usuarios: [],
       anuncio: null,
-      // searchQuery: '',  // Comentado para después
+      searchQuery: '', 
       loading: false,
       isAdmin: false
     }
@@ -83,7 +83,7 @@ export default {
         pub.contenido.toLowerCase().includes(query)
       );
     }
-  },
+  }, 
   mounted() {
     this.checkUserType();
     this.cargarDatos();
@@ -118,7 +118,7 @@ export default {
           this.anuncio = await anuncioRes.json();
         }
       } catch (error) {
-        // Error cargando datos
+        console.error("Error cargando datos");
       } finally {
         this.loading = false;
       }
@@ -136,9 +136,9 @@ export default {
     irAAnuncio(anuncioId) {
       this.$router.push(`/anuncio/${anuncioId}`);
     },
-    /* handleSearch() {
+    handleSearch() {
       // La búsqueda se hace automáticamente con el computed property
-    }, */
+    }, 
     formatDate(dateString) {
       if (!dateString) return '';
       const date = new Date(dateString);

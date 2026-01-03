@@ -1,11 +1,13 @@
 package com.software.spring.service;
 
-import com.software.spring.model.Publicacion;
-import com.software.spring.repository.PublicacionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.software.spring.model.Publicacion;
+import com.software.spring.repository.PublicacionRepository;
 
 @Service
 public class PublicacionService {
@@ -63,6 +65,41 @@ public class PublicacionService {
         return repo.findAll().stream()
             .filter(p -> p.getAutorId() != null && autorId.equals(p.getAutorId()))
             .collect(java.util.stream.Collectors.toList());
+    }
+    
+    public Publicacion editarPublicacion(
+        Integer id,
+        String titulo,
+        String contenido,
+        String autorId
+    ) {
+        Publicacion existente = repo.findById(id)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("No existe la publicación con ID: " + id)
+                );
+
+        if (!existente.getAutorId().equals(autorId)) {
+            throw new IllegalStateException("No tienes permiso para editar esta publicación");
+        }
+
+        existente.setTitulo(titulo);
+        existente.setContenido(contenido);
+
+        repo.update(existente);
+
+        return existente;
+    }
+
+
+    public void eliminarPublicacion(Integer id, String autorId) {
+        Publicacion existente = repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Publicación no encontrada"));
+
+        if (!existente.getAutorId().equals(autorId)) {
+            throw new IllegalStateException("No tienes permiso para eliminar esta publicación");
+        }
+
+        repo.delete(id);
     }
 
 }

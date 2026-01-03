@@ -112,4 +112,66 @@ public class JsonPublicacionRepository implements PublicacionRepository {
             lock.writeLock().unlock();
         }
     }
+
+    @Override
+    public void delete(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("El id de la publicación no puede ser null");
+        }
+
+        lock.writeLock().lock();
+        try {
+            List<Publicacion> publicaciones = readPublicacionesUnsafe();
+
+            boolean removed = publicaciones.removeIf(p -> Objects.equals(p.getId(), id));
+
+            if (!removed) {
+                throw new IllegalArgumentException(
+                    "No se encontró la publicación con ID: " + id
+                );
+            }
+
+            writePublicacionesUnsafe(publicaciones);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error eliminando publicación en " + dbPath, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    @Override
+    public void update(Publicacion publicacion) {
+        if (publicacion == null || publicacion.getId() == null) {
+            throw new IllegalArgumentException("La publicación o su ID no pueden ser null");
+        }
+
+        lock.writeLock().lock();
+        try {
+            List<Publicacion> publicaciones = readPublicacionesUnsafe();
+
+            boolean updated = false;
+
+            for (int i = 0; i < publicaciones.size(); i++) {
+                if (Objects.equals(publicaciones.get(i).getId(), publicacion.getId())) {
+                    publicaciones.set(i, publicacion);
+                    updated = true;
+                    break;
+                }
+            }
+
+            if (!updated) {
+                throw new IllegalArgumentException(
+                    "No se encontró la publicación con ID: " + publicacion.getId()
+                );
+            }
+
+            writePublicacionesUnsafe(publicaciones);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error actualizando publicación en " + dbPath, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
 }
