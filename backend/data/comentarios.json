@@ -96,8 +96,20 @@
   "fechaCreacion" : null
 }, {
   "id" : 1212512693,
-  "contenido" : "comentario editado por segunda vez",
+  "contenido" : "comentario editado",
   "autor" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
   "publicacionId" : 512071705,
+  "fechaCreacion" : null
+}, {
+  "id" : 461163480,
+  "contenido" : "comentario 1",
+  "autor" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
+  "publicacionId" : 788647261,
+  "fechaCreacion" : null
+}, {
+  "id" : 1080874366,
+  "contenido" : "holi\n",
+  "autor" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
+  "publicacionId" : 1110972371,
   "fechaCreacion" : null
 } ]

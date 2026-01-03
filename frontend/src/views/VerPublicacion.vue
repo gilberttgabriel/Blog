@@ -7,22 +7,40 @@
     <div v-else-if="publicacion" class="content-area">
       <!-- Publicación principal -->
       <div class="publicacion-completa">
-        <h1 class="titulo">{{ publicacion.titulo }}</h1>
         
+        <!-- Acciones arriba a la derecha -->
+        <div class="acciones-publicacion" v-if="esAutorPublicacion">
+          <button class="btn-editar" @click="abrirModalEdicion" title="Editar">
+            ✏️
+          </button>
+
+          <button class="btn-eliminar" @click="eliminarPublicacion" title="Eliminar">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+          </button>
+        </div>
+
+        <h1 class="titulo">{{ publicacion.titulo }}</h1>
+
         <div class="meta-info">
           <span 
-            class="autor" 
+            class="autor"
             @click="irAPerfil(publicacion.autorId)"
-            data-tooltip="Ver perfil"
           >
             {{ nombreAutor }}
           </span>
           <span class="separador">•</span>
           <span class="fecha">{{ formatDate(publicacion.fechaCreacion) }}</span>
         </div>
-        
+
         <p class="contenido">{{ publicacion.contenido }}</p>
       </div>
+
       
       <!-- Sección de comentarios -->
       <div class="comentarios-section">
@@ -137,6 +155,33 @@
       <p>No se pudo cargar la publicación.</p>
       <button @click="$router.push('/inicio')" class="btn-volver">Volver al inicio</button>
     </div>
+    <div v-if="mostrarModalEdicion" class="modal-overlay">
+      <div class="modal-edicion">
+        <h2>Editar publicación</h2>
+
+        <input
+          v-model="tituloEditado"
+          placeholder="Título"
+          class="input-edicion"
+        />
+
+        <textarea
+          v-model="contenidoEditadoPublicacion"
+          rows="6"
+          placeholder="Contenido"
+          class="textarea-edicion"
+        ></textarea>
+
+        <div class="acciones-edicion">
+          <button class="btn-guardar" @click="guardarEdicionPublicacion">
+            Guardar
+          </button>
+          <button class="btn-cancelar" @click="cerrarModalEdicion">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -152,7 +197,10 @@ export default {
       nombreAutor: '',
       loading: true,
       comentarioEditandoId: null,
-      contenidoEditado: ''
+      contenidoEditado: '',
+      mostrarModalEdicion: false,
+      tituloEditado: '',
+      contenidoEditadoPublicacion: ''
     }
   },
   mounted() {
@@ -248,6 +296,8 @@ export default {
     },
     puedeEliminarComentario(autorId) {
       const userData = localStorage.getItem('user');
+      if (!userData) return false;
+
       const user = JSON.parse(userData);
       return user.id === autorId;
     },
@@ -297,6 +347,77 @@ export default {
       this.contenidoEditado = '';
     },
 
+    abrirModalEdicion() {
+      this.tituloEditado = this.publicacion.titulo;
+      this.contenidoEditadoPublicacion = this.publicacion.contenido;
+      this.mostrarModalEdicion = true;
+    },
+
+    cerrarModalEdicion() {
+      this.mostrarModalEdicion = false;
+    },
+
+    async guardarEdicionPublicacion() {
+      if (!this.tituloEditado.trim() || !this.contenidoEditadoPublicacion.trim()) {
+        alert('Título y contenido son obligatorios');
+        return;
+      }
+
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/publicacion/${this.publicacion.id}`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              titulo: this.tituloEditado,
+              contenido: this.contenidoEditadoPublicacion,
+              autorId: user.id
+            })
+          }
+        );
+
+        if (response.ok) {
+          const actualizada = await response.json();
+          this.publicacion = actualizada;
+          this.cerrarModalEdicion();
+        } else {
+          alert('No se pudo editar la publicación');
+        }
+      } catch (error) {
+        alert('Error al editar la publicación');
+      }
+    },
+
+    async eliminarPublicacion() {
+      if (!confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+        return;
+      }
+
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/publicacion/${this.publicacion.id}`,
+          {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ autorId: user.id })
+          }
+        );
+
+        if (response.ok || response.status === 204) {
+          this.$router.push('/inicio');
+        } else {
+          alert('No se pudo eliminar la publicación');
+        }
+      } catch (error) {
+        alert('Error al eliminar la publicación');
+      }
+    },
+
     async guardarEdicion(comentarioId) {
       if (!this.contenidoEditado.trim()) return;
 
@@ -341,7 +462,17 @@ export default {
     }
 
 
+  },
+  computed: {
+    esAutorPublicacion() {
+      const userData = localStorage.getItem('user');
+      if (!userData || !this.publicacion) return false;
+
+      const user = JSON.parse(userData);
+      return user.id === this.publicacion.autorId;
+    }
   }
+
 }
 </script>
 
@@ -655,6 +786,94 @@ export default {
 .btn-cancelar:hover {
   background-color: #d5d5d5;
   transform: translateY(-2px);
+}
+
+.acciones-publicacion {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-edicion {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-edicion h2 {
+  margin-bottom: 1rem;
+  font-family: 'FuenteHeader', sans-serif;
+}
+
+.input-edicion,
+.textarea-edicion {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  font-family: 'FuenteHeader', sans-serif;
+}
+.publicacion-completa {
+  position: relative; /* CLAVE */
+  background: white;
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+.acciones-publicacion {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.acciones-publicacion .btn-editar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #777;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.acciones-publicacion .btn-editar:hover {
+  background-color: #e6f4ec;
+  color: #4a8f6a;
+}
+.acciones-publicacion .btn-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #777;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.acciones-publicacion .btn-eliminar:hover {
+  background-color: #ffe6e6;
+  color: #d32f2f;
 }
 
 </style>
