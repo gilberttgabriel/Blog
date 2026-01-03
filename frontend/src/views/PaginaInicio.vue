@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <!-- <div class="header">
+    <div class="header">
       <div class="search-bar">
         <input 
           type="text" 
@@ -13,7 +13,7 @@
           <path d="M21 21L16.65 16.65" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-    </div> -->
+    </div>
 
     <!-- Banner de Anuncio -->
     <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)" data-tooltip="Ver anuncio" data-tooltip-pos="bottom">
@@ -72,8 +72,7 @@ export default {
       isAdmin: false
     }
   },
-  // Buscador comentado para después
-  /* computed: {
+  computed: {
     filteredPublicaciones() {
       if (!this.searchQuery) {
         return this.publicaciones;
@@ -84,7 +83,7 @@ export default {
         pub.contenido.toLowerCase().includes(query)
       );
     }
-  }, */
+  },
   mounted() {
     this.checkUserType();
     this.cargarDatos();
