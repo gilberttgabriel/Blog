@@ -480,12 +480,13 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 15px;
     transition: background-color 0.2s;
   }
 
   .btn-eliminar:hover {
-    background-color: rgba(0,0,0,0.05); /* leve sombreado al pasar el mouse */
+    background-color: #ffe6e6;
+    color: #d32f2f;
   }
 
   .btn-eliminar svg {

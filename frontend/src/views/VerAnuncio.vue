@@ -7,10 +7,16 @@
     <div v-else-if="anuncio" class="content-area">
       <div v-if="esAdmin" class="admin-actions">
         <button class="btn edit" @click="abrirEditor" title="Editar anuncio">
-          ✏️ Editar
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
         </button>
         <button class="btn delete" @click="confirmarEliminar" title="Eliminar anuncio">
-          🗑️ Eliminar
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 12V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
       <!-- Anuncio completo -->
@@ -216,21 +222,20 @@ export default {
   padding: 0.6rem 1rem;
   cursor: pointer;
   transition: transform 0.05s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: none;
 }
 
-.btn:hover { transform: translateY(-1px); }
+.btn.delete:hover {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+}
+
+.btn.edit:hover{
+  background-color: #e6f4ec;
+  color: #4a8f6a;
+}
+
 .btn:active { transform: translateY(0); }
-
-.btn.edit {
-  background: linear-gradient(135deg, #8bc9a3, #a8d5ba);
-  color: #fff;
-}
-
-.btn.delete {
-  background: linear-gradient(135deg, #f38181, #f96f6f);
-  color: #fff;
-}
 
 .btn.primary {
   background: #5a9f7a;

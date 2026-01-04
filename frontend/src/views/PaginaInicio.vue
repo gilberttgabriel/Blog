@@ -34,7 +34,7 @@
       
       <div v-else class="publicaciones-list">
         <div 
-          v-for="publicacion in publicaciones" 
+          v-for="publicacion in filteredPublicaciones"
           :key="publicacion.id" 
           class="publicacion-card"
           @click="irAPublicacion(publicacion.id)"

@@ -11,7 +11,7 @@
         <!-- Acciones arriba a la derecha -->
         <div class="acciones-publicacion" v-if="esAutorPublicacion">
           <button class="btn-editar" @click="abrirModalEdicion" title="Editar">
-            ✏️
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
           </button>
 
           <button class="btn-eliminar" @click="eliminarPublicacion" title="Eliminar">
@@ -95,7 +95,7 @@
                   class="btn-editar"
                   title="Editar comentario"
                 >
-                  ✏️
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                 </button>
 
                 <button 
@@ -748,7 +748,37 @@ export default {
   display: flex;
   gap: 8px;
 }
+.acciones-comentario .btn-editar,
+.acciones-comentario .btn-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #777;
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.acciones-comentario .btn-editar svg,
+.acciones-comentario .btn-eliminar svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+/* Hover diferenciado */
+.acciones-comentario .btn-editar:hover {
+  background-color: #e6f4ec;
+  color: #4a8f6a;
+}
+
+.acciones-comentario .btn-eliminar:hover {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+}
 .acciones-edicion {
   display: flex;
   gap: 12px;              /* más separación entre botones */
@@ -845,21 +875,8 @@ export default {
   display: flex;
   gap: 0.5rem;
 }
-.acciones-publicacion .btn-editar {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: #777;
-  padding: 0.4rem;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
 
-.acciones-publicacion .btn-editar:hover {
-  background-color: #e6f4ec;
-  color: #4a8f6a;
-}
+.acciones-publicacion .btn-editar,
 .acciones-publicacion .btn-eliminar {
   background: none;
   border: none;
@@ -869,6 +886,20 @@ export default {
   padding: 0.4rem;
   border-radius: 8px;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.acciones-publicacion .btn-editar svg,
+.acciones-publicacion .btn-eliminar svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.acciones-publicacion .btn-editar:hover {
+  background-color: #e6f4ec;
+  color: #4a8f6a;
 }
 
 .acciones-publicacion .btn-eliminar:hover {
