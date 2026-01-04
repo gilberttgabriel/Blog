@@ -1,14 +1,4 @@
 [ {
-  "id" : "68e678d2-9153-4751-bd1c-23a279d6ade0",
-  "username" : "gilbertmatatan",
-  "contraseña" : "123456",
-  "nombre" : "gilberto",
-  "apellido" : "moncada",
-  "activo" : true,
-  "ultimoAcceso" : "2025-10-26T17:05:29.8973275",
-  "descripcion" : "hoa",
-  "edad" : 21
-}, {
   "id" : "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5",
   "username" : "hellennn",
   "contraseña" : "123456",
@@ -29,26 +19,6 @@
   "descripcion" : "soy maria",
   "edad" : 21
 }, {
-  "id" : "ed3e0a14-77d9-436a-a3da-cce804bb68b0",
-  "username" : "999-*/",
-  "contraseña" : "123456",
-  "nombre" : "daniel",
-  "apellido" : "v",
-  "activo" : true,
-  "ultimoAcceso" : "2025-10-31T12:14:02.9087708",
-  "descripcion" : "daniel",
-  "edad" : 13
-}, {
-  "id" : "6192b605-096a-4a74-a4fc-54a7ed8f7ace",
-  "username" : "val",
-  "contraseña" : "123456",
-  "nombre" : "valeria",
-  "apellido" : "leon",
-  "activo" : true,
-  "ultimoAcceso" : "2025-10-31T12:48:53.2213739",
-  "descripcion" : "bien",
-  "edad" : 21
-}, {
   "id" : "6ab581c0-cc8a-44c0-ba81-d62e7d256b0d",
   "username" : "gilbertmatatan1",
   "contraseña" : "123456",
@@ -59,43 +29,13 @@
   "descripcion" : "kwehfiugf",
   "edad" : 35
 }, {
-  "id" : "595ca7f3-a012-465a-9e24-240f47ad9f8c",
-  "username" : "gilbertmatatan123",
+  "id" : "884486fb-38e2-4cec-9920-6dab261522af",
+  "username" : "ajcabrera.23",
   "contraseña" : "123456",
-  "nombre" : "aieufh",
-  "apellido" : "askjnsdbjf",
+  "nombre" : "Antonio ",
+  "apellido" : "Cabrera",
   "activo" : true,
-  "ultimoAcceso" : "2025-11-12T17:00:44.7339232",
-  "descripcion" : "sldihfidgbf",
-  "edad" : 45
-}, {
-  "id" : "5a8cbefd-f0a0-4fc3-97ca-9d80c012bbf3",
-  "username" : "balsebu777",
-  "contraseña" : "oe",
-  "nombre" : "balsebu",
-  "apellido" : "777",
-  "activo" : true,
-  "ultimoAcceso" : "2025-11-12T18:44:55.6702612",
-  "descripcion" : "yea",
-  "edad" : 16
-}, {
-  "id" : "633ccd59-8400-4878-baa9-3e5677e5ddbb",
-  "username" : "hpl21",
-  "contraseña" : "Bob.2003",
-  "nombre" : "Humberto",
-  "apellido" : "Villacis",
-  "activo" : true,
-  "ultimoAcceso" : "2025-12-29T12:32:18.327922176",
-  "descripcion" : "me gusta el cine",
-  "edad" : 22
-}, {
-  "id" : "b2e30209-bad5-4832-897b-bdf92f5ece59",
-  "username" : "nananaim",
-  "contraseña" : "remo1900",
-  "nombre" : "naim",
-  "apellido" : "chelot",
-  "activo" : true,
-  "ultimoAcceso" : "2025-12-30T11:43:00.4042515",
-  "descripcion" : "me gusta ver las peleas de topuria",
+  "ultimoAcceso" : "2026-01-03T22:14:59.9452933",
+  "descripcion" : "aa",
   "edad" : 20
 } ]

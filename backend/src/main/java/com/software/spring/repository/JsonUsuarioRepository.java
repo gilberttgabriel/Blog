@@ -1,5 +1,3 @@
-
-
 package com.software.spring.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -91,12 +89,19 @@ public class JsonUsuarioRepository implements UsuarioRepository {
                 .findFirst();
     }
 
+
     @Override
     public Usuario save(Usuario usuario) {
         lock.writeLock().lock();
         try {
             List<Usuario> usuarios = readUsuariosUnsafe();
+
+            // Si el usuario ya existe (mismo ID), lo borramos primero para sobrescribirlo
+            usuarios.removeIf(u -> Objects.equals(u.getId(), usuario.getId()));
+
+            // Agregamos la versión nueva
             usuarios.add(usuario);
+
             writeUsuariosUnsafe(usuarios);
             return usuario;
         } catch (IOException e) {
