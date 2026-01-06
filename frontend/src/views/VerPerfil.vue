@@ -217,8 +217,23 @@ export default {
 </script>
 
 <style scoped>
-.perfil-page { min-height: 100vh; background-color: #f9f9f9; }
-.header { width: 100%; padding: 1.5rem 2rem; background-color: white; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 10; }
+.perfil-page {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding-top: 80px;
+}
+
+.header {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  /* Cambiamos top: 0 por top: 60px para que al bajar no se pegue totalmente al techo */
+  top: 0;
+  z-index: 10;
+}
+
 .user-info { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
 .avatar { width: 60px; height: 60px; background-color: #f5f5dc; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .user-icon { width: 40px; height: 40px; }
@@ -233,7 +248,7 @@ export default {
 .btn-action.delete { background-color: #ffebee; color: #c62828; }
 .btn-action.delete:hover { transform: scale(1.05); }
 
-/* --- ESTILOS DEL MODAL (COMPARTIDOS) --- */
+
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
@@ -254,18 +269,17 @@ export default {
 .edit-input { padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; width: 100%; box-sizing: border-box;}
 .modal-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
 
-/* --- ESTILOS ESPECÍFICOS PARA EL MODAL DE ELIMINAR --- */
+
 .delete-modal { text-align: center; max-width: 400px; }
-.danger-text { color: #c62828 !important; } /* Título rojo */
+.danger-text { color: #c62828 !important; }
 .warning-msg { color: #555; margin-bottom: 30px; line-height: 1.5; }
-.centered { justify-content: center; } /* Botones centrados */
+.centered { justify-content: center; }
 
 /* BOTONES */
 .btn-save { background-color: #5a9f7a; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;}
 .btn-save:hover { background-color: #4a8f6a; }
 .btn-cancel { background-color: #eee; color: #333; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-size: 1rem;}
 .btn-cancel:hover { background-color: #e0e0e0; }
-/* Botón rojo para confirmar eliminar */
 .btn-delete-confirm { background-color: #ef5350; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;}
 .btn-delete-confirm:hover { background-color: #d32f2f; }
 
