@@ -16,9 +16,11 @@
     </div>
 
     <!-- Banner de Anuncio -->
-    <div v-if="anuncio" class="anuncio-banner" @click="irAAnuncio(anuncio.id)" data-tooltip="Ver anuncio" data-tooltip-pos="bottom">
-      <span class="anuncio-label">Anuncio</span>
-      <img v-if="anuncio.imagen" :src="anuncio.imagen" alt="Anuncio" class="anuncio-imagen" />
+    <div class="anuncio-banner" :class="{ 'no-anuncio': !anuncio }" @click="anuncio ? irAAnuncio(anuncio.id) : null" :data-tooltip="anuncio ? 'Ver anuncio' : null" data-tooltip-pos="bottom">
+      <div v-if="!anuncio || !anuncio.imagen" class="anuncio-vacio">
+        <span class="anuncio-texto">ANUNCIO</span>
+      </div>
+      <img v-else :src="anuncio.imagen" alt="Anuncio" class="anuncio-imagen" />
     </div>
 
     <!-- Contenido solo para usuarios normales (no admin) -->
@@ -337,7 +339,11 @@ export default {
   z-index: 1;
 }
 
-.anuncio-banner:hover {
+.anuncio-banner.no-anuncio {
+  cursor: default;
+}
+
+.anuncio-banner:not(.no-anuncio):hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
@@ -367,6 +373,24 @@ export default {
   object-fit: cover;
   opacity: 0.9;
 }
+
+.anuncio-vacio {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #a94442 0%, #c9302c 100%);
+}
+
+.anuncio-texto {
+  font-family: 'FuenteHeader', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
 </style>
 
 

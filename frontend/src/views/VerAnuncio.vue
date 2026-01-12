@@ -85,7 +85,7 @@ export default {
     esAdmin() {
       try {
         const user = JSON.parse(localStorage.getItem('user') || 'null');
-        return !!(user && typeof user.numeroContrato !== 'undefined');
+        return !!(user && user.username === 'admin');
       } catch { return false; }
     }
   },
