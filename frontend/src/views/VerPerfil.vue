@@ -13,7 +13,7 @@
           <h1 data-tooltip="Ver perfil completo">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
           <p class="username" data-tooltip="Username">@{{ usuario.username }}</p>
           <p class="descripcion" v-if="usuario.descripcion">{{ usuario.descripcion }}</p>
-
+          
           <div v-if="esMiPerfil" class="actions-container">
              <button @click="iniciarEdicion" class="btn-action edit">Editar Perfil</button>
              <button @click="abrirConfirmacionEliminar" class="btn-action delete">Eliminar Cuenta</button>
@@ -200,7 +200,9 @@ export default {
         const response = await fetch('http://localhost:8080/api/publicacion');
         if (response.ok) {
           const todas = await response.json();
-          this.publicaciones = todas.filter(pub => pub.autorId === this.usuario.id);
+          this.publicaciones = todas
+            .filter(pub => pub.autorId === this.usuario.id)
+            .sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
         }
       } catch (error) { console.error(error); }
     },
@@ -220,33 +222,160 @@ export default {
 .perfil-page {
   min-height: 100vh;
   background-color: #f9f9f9;
-  padding-top: 80px;
+  padding-top: 0;
 }
 
 .header {
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 3rem 2rem;
   background-color: white;
-  border-bottom: 1px solid #e0e0e0;
   position: sticky;
-  /* Cambiamos top: 0 por top: 60px para que al bajar no se pegue totalmente al techo */
   top: 0;
   z-index: 10;
+  min-height: 180px;
 }
 
-.user-info { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
-.avatar { width: 60px; height: 60px; background-color: #f5f5dc; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.user-icon { width: 40px; height: 40px; }
-.user-details h1 { font-family: 'FuenteHeader', sans-serif; font-size: 1.5rem; font-weight: 600; color: #333; margin: 0 0 0.3rem 0; }
-.username { font-family: 'FuenteHeader', sans-serif; font-size: 0.95rem; color: #5a9f7a; margin: 0 0 0.3rem 0; font-weight: 500; }
-.descripcion { font-family: 'FuenteHeader', sans-serif; font-size: 0.9rem; color: #666; margin: 0; line-height: 1.4; }
+.user-info { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  display: flex; 
+  align-items: flex-start; 
+  gap: 2.5rem; 
+}
 
-.actions-container { margin-top: 15px; display: flex; gap: 10px; }
-.btn-action { border: none; padding: 6px 15px; border-radius: 15px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: transform 0.2s; }
-.btn-action.edit { background-color: #a8d5ba; color: white; }
-.btn-action.edit:hover { transform: scale(1.05); }
-.btn-action.delete { background-color: #ffebee; color: #c62828; }
-.btn-action.delete:hover { transform: scale(1.05); }
+.avatar { 
+  width: 100px; 
+  height: 100px; 
+  background-color: #f5f5dc; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-shrink: 0; 
+}
+
+.user-icon { 
+  width: 60px; 
+  height: 60px; 
+}
+
+.user-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-details h1 { 
+  font-family: 'FuenteHeader', sans-serif; 
+  font-size: 2rem; 
+  font-weight: 600; 
+  color: #333; 
+  margin: 0 0 0.5rem 0; 
+}
+
+.username { 
+  font-family: 'FuenteHeader', sans-serif; 
+  font-size: 1.1rem; 
+  color: #5a9f7a; 
+  margin: 0 0 0.6rem 0; 
+  font-weight: 500; 
+}
+
+.descripcion { 
+  font-family: 'FuenteHeader', sans-serif; 
+  font-size: 1rem; 
+  color: #666; 
+  margin: 0 0 1.2rem 0; 
+  line-height: 1.5; 
+}
+
+.actions-container { 
+  display: flex; 
+  gap: 15px; 
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.btn-action { 
+  border: none; 
+  padding: 12px 32px; 
+  border-radius: 22px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  font-size: 0.95rem; 
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'FuenteHeader', sans-serif;
+}
+
+.btn-action.edit { 
+  background-color: #a8d5ba; 
+  color: white; 
+}
+
+.btn-action.edit:hover { 
+  background-color: #8bc5a2;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(168, 213, 186, 0.4);
+}
+
+.btn-action.delete { 
+  background-color: #ffebee; 
+  color: #c62828; 
+}
+
+.btn-action.delete:hover { 
+  background-color: #ffcdd2;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(198, 40, 40, 0.2);
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .user-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .user-details {
+    text-align: center;
+  }
+  
+  .actions-container {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .btn-action {
+    width: 100%;
+  }
+}
+
+/* Responsive para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .user-info {
+    gap: 1rem;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .user-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .user-details h1 {
+    font-size: 1.3rem;
+  }
+}
 
 
 .modal-overlay {

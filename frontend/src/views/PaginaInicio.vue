@@ -107,7 +107,8 @@ export default {
         ]);
         
         if (publicacionesRes.ok) {
-          this.publicaciones = await publicacionesRes.json();
+          const pubs = await publicacionesRes.json();
+          this.publicaciones = pubs.sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
         }
         
         if (usuariosRes.ok) {
