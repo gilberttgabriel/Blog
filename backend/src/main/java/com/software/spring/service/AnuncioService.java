@@ -29,10 +29,21 @@ public class AnuncioService {
             throw new IllegalArgumentException("El contenido es obligatorio");
         }
         
-        // Establecer fecha de creación
-        anuncio.setFechaCreacion(LocalDateTime.now());
+        // Generar ID y fecha de creación
+        Integer id = Math.abs(java.util.UUID.randomUUID().hashCode());
+        LocalDateTime fechaCreacion = LocalDateTime.now();
         
-        return anuncioRepository.save(anuncio);
+        // Crear nuevo anuncio usando el constructor
+        Anuncio nuevoAnuncio = new Anuncio(
+            id,
+            anuncio.getTitulo(),
+            anuncio.getContenido(),
+            anuncio.getAutorId(),
+            fechaCreacion,
+            anuncio.getImagen()
+        );
+        
+        return anuncioRepository.save(nuevoAnuncio);
     }
     
     /**
