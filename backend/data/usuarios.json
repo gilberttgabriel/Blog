@@ -38,4 +38,14 @@
   "ultimoAcceso" : "2026-01-03T22:14:59.9452933",
   "descripcion" : "aa",
   "edad" : 20
+}, {
+  "id" : "c5e038a1-e2de-4c78-a1bd-60617eb6b086",
+  "username" : "hpl21",
+  "contraseña" : "Bob.2003",
+  "nombre" : "Humberto",
+  "apellido" : "Villacis",
+  "activo" : true,
+  "ultimoAcceso" : "2026-02-04T19:33:33.895223309",
+  "descripcion" : "me gusta le cine",
+  "edad" : 22
 } ]

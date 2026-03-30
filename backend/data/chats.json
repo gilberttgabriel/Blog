@@ -53,4 +53,9 @@
   "usuarioIds" : [ "633ccd59-8400-4878-baa9-3e5677e5ddbb", "68e678d2-9153-4751-bd1c-23a279d6ade0" ],
   "fechaCreacion" : "2025-12-29T12:32:26.552780716",
   "ultimoMensaje" : null
+}, {
+  "id" : 211959573,
+  "usuarioIds" : [ "c5e038a1-e2de-4c78-a1bd-60617eb6b086", "b0cf1baa-4ec5-43ae-a0aa-1187a89353f5" ],
+  "fechaCreacion" : "2026-02-04T19:33:48.462134274",
+  "ultimoMensaje" : "culo"
 } ]

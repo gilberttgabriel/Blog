@@ -1,0 +1,24 @@
+services:
+  # --- EL BACKEND ---
+  backend-api:
+    build: ./backend         # Docker buscará el Dockerfile dentro de /backend
+    ports:
+      - "8080:8080"          # Mapea el puerto 8080 de tu PC al 8080 del contenedor
+    volumes:
+      - /home/hpl21/Ing-Software/Blog/backend/data:/app/data  # <-- El túnel mágico
+    networks:
+      - mi-red-privada
+
+  # --- EL FRONTEND ---
+  frontend-vue:
+    build: ./frontend        # Docker buscará el Dockerfile dentro de /frontend
+    ports:
+      - "8081:80"              # Mapea el puerto 80 de tu PC (web) al 80 del Nginx
+    depends_on:
+      - backend-api          # No enciende el front hasta que el back esté listo
+    networks:
+      - mi-red-privada
+
+networks:
+  mi-red-privada:            # Esto crea una red interna para que se hablen entre ellos
+    driver: bridge
